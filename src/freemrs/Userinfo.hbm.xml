@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 11, 2014 11:54:01 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="freemrs.Userinfo" table="userinfo" catalog="freemrs">
+        <id name="username" type="string">
+            <column name="username" length="20" />
+            <generator class="assigned" />
+        </id>
+        <property name="type" type="string">
+            <column name="type" length="20" not-null="true" />
+        </property>
+        <property name="passwordhash" type="string">
+            <column name="passwordhash" length="200" not-null="true" />
+        </property>
+        <property name="question" type="string">
+            <column name="question" length="60" not-null="true" />
+        </property>
+        <property name="answer" type="string">
+            <column name="answer" length="200" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
