@@ -7,6 +7,9 @@ package freemrs;
 
 import java.awt.Dimension;
 import java.awt.Frame;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 import org.hibernate.Session;
 
 /**
@@ -19,19 +22,66 @@ public class mainWindow extends javax.swing.JFrame {
      * Creates new form mainWindow
      */
     Session session;
+    WelcomeInterface welcome;
+    PatientInfoInterface patient;
+    VitalsInterface vitals;
+    PrescriptionInterface pres;
     public mainWindow(Session session) {
-        initComponents();
-        this.setPreferredSize(new Dimension(1000,700));
-        setSize(new Dimension(1000, 700));
         this.session=session;
-        PatientInfo p = new PatientInfo();
-        this.add(p);
-        p.setBounds(0, 224, 995, 445);
-        p.setVisible(true);
+        
+        initComponents();
+        patient = new PatientInfoInterface(this.session);
+        welcome = new WelcomeInterface();
+        vitals = new VitalsInterface(this.session);
+        pres = new PrescriptionInterface(this.session);
+        
+        this.add(patient);
+        this.add(welcome);
+        this.add(vitals);
+        this.add(pres);
+        viewVoid();
+        //this.setPreferredSize(new Dimension(1000,700));
+       // setSize(new Dimension(1000, 700));
+        
+        
         //this.setExtendedState(Frame.MAXIMIZED_BOTH);
         
+         
+    }
+    
+    private void viewPatientInfo(){         //Showing patient info panal
+        welcome.setVisible(false);
+        vitals.setVisible(false);
+        pres.setVisible(false);
+        patient.setBounds(0, 224, 995, 445);
+        patient.setVisible(true);
         
     }
+    
+    private void viewVitals(){
+        welcome.setVisible(false);
+        patient.setVisible(false);
+        pres.setVisible(false);
+        vitals.setBounds(0, 224, 995, 445);
+        vitals.setVisible(true);
+        
+    }
+    
+    private void viewVoid(){                //Show void screen at startup before search patient
+        this.setPreferredSize(new Dimension(1000,700));
+        setSize(new Dimension(1000, 700));
+        welcome.setBounds(0, 224, 995, 445);
+        welcome.setVisible(true);
+    }
+    
+    private void viewPresciptions(){
+        welcome.setVisible(false);
+        patient.setVisible(false);
+        vitals.setVisible(false);
+        pres.setBounds(0, 224, 995, 445);
+        pres.setVisible(true);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,6 +105,7 @@ public class mainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FreeMRS");
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -80,14 +131,29 @@ public class mainWindow extends javax.swing.JFrame {
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/patient icon.jpg"))); // NOI18N
         jButton2.setText("Patient");
         jButton2.setBorder(null);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vitals icon.jpg"))); // NOI18N
         jButton3.setText("Vitals");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Prescription icon.jpg"))); // NOI18N
         jButton4.setText("Prescriptions");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -116,7 +182,7 @@ public class mainWindow extends javax.swing.JFrame {
                                 .addComponent(jButton3)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton4)))
-                        .addContainerGap(226, Short.MAX_VALUE))))
+                        .addContainerGap(276, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,6 +222,18 @@ public class mainWindow extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        viewPatientInfo();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        viewVitals();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        viewPresciptions();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

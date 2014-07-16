@@ -4,6 +4,9 @@
  */
 package freemrs;
 
+import javax.swing.ImageIcon;
+import org.hibernate.Session;
+
 /**
  *
  * @author Nuwan Prabhath
@@ -13,7 +16,9 @@ public class DemographicInterface extends javax.swing.JFrame {
     /**
      * Creates new form Demographics
      */
-    public DemographicInterface() {
+    Session session;
+    public DemographicInterface(Session session) {
+        this.session=session;
         initComponents();
     }
 
@@ -60,8 +65,8 @@ public class DemographicInterface extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Patient Demographic Information");
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -124,6 +129,11 @@ public class DemographicInterface extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 204, 204));
         jButton3.setText("Delete");
@@ -247,6 +257,10 @@ public class DemographicInterface extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -277,7 +291,8 @@ public class DemographicInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DemographicInterface().setVisible(true);
+                Session s= null;
+                new DemographicInterface(s).setVisible(true);
             }
         });
     }

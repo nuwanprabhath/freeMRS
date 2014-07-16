@@ -50,7 +50,7 @@ public class login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
-        setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
