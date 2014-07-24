@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 24, 2014 5:46:32 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="freemrs.Insurance" table="insurance" catalog="freemrs">
+        <id name="insuarenceId" type="java.lang.Integer">
+            <column name="insuarence_id" />
+            <generator class="identity"></generator>
+        </id>
+        <property name="provider" type="string">
+            <column name="provider" length="20" not-null="true" />
+        </property>
+        <property name="planName" type="string">
+            <column name="plan_name" length="20" not-null="true" />
+        </property>
+        <property name="effectiveDate" type="date">
+            <column name="effective_date" length="10" not-null="true" />
+        </property>
+        <property name="policyNumber" type="string">
+            <column name="policy_number" length="20" not-null="true" />
+        </property>
+        <property name="patientId" type="int">
+            <column name="patient_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

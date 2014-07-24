@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 24, 2014 5:46:32 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="freemrs.Vitals" table="vitals" catalog="freemrs">
+        <id name="vitalId" type="java.lang.Integer">
+            <column name="vital_id" />
+            <generator class="identity"></generator>
+        </id>
+        <property name="dateTime" type="timestamp">
+            <column name="date_time" length="19" not-null="true" />
+        </property>
+        <property name="weight" type="float">
+            <column name="weight" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="height" type="float">
+            <column name="height" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="bpSystolic" type="int">
+            <column name="bp_systolic" not-null="true" />
+        </property>
+        <property name="bpDiastolic" type="int">
+            <column name="bp_diastolic" not-null="true" />
+        </property>
+        <property name="pulse" type="int">
+            <column name="pulse" not-null="true" />
+        </property>
+        <property name="temperature" type="int">
+            <column name="temperature" not-null="true" />
+        </property>
+        <property name="tempLocation" type="string">
+            <column name="temp_location" length="10" not-null="true" />
+        </property>
+        <property name="oxygenSaturation" type="int">
+            <column name="oxygen_saturation" not-null="true" />
+        </property>
+        <property name="bmi" type="float">
+            <column name="BMI" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="notes" type="string">
+            <column name="notes" length="65535" not-null="true" />
+        </property>
+        <property name="patientId" type="int">
+            <column name="patient_id" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

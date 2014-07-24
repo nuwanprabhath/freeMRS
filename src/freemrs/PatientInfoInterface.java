@@ -4,6 +4,9 @@
  */
 package freemrs;
 
+import java.util.Calendar;
+import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -16,12 +19,94 @@ public class PatientInfoInterface extends javax.swing.JPanel {
      * Creates new form PatientInfo
      */
     Session session;
+    Patient patient;
+    Insurance insurance;
+
     public PatientInfoInterface(Session session) {
-    this.session=session;
+        this.session = session;
         initComponents();
+
+    }
+
+    public void updateInfo(Patient patient) {
+        this.patient = patient;
+        updateDemographic();
+        updateInsuarence();
+        updateMedicalInfo();
+        updateVitals();
+    }
+
+    private void updateDemographic() {
+        Calendar today = Calendar.getInstance();
+        Calendar birthDate = Calendar.getInstance();
+        birthDate.setTime(patient.getBirthday());
+        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        this.jLabel13.setText(age+"");
+        this.jLabel1.setText(patient.getName());
         
-        this.jTextArea1.setEditable(false);
-        this.jTextArea2.setEditable(false);
+        this.jLabel28.setText(patient.getBirthday().toString());
+        this.jLabel30.setText(patient.getSex());
+        this.jLabel32.setText(patient.getMaritalStatus());
+        this.jLabel34.setText(patient.getJob());
+        this.jLabel37.setText(patient.getPhone());
+    }
+
+    private void updateInsuarence() {
+
+        session.beginTransaction();
+        Query qr = session.createQuery("from Insurance where patientId =:code");
+        qr.setParameter("code", patient.getPatientId());
+        List<Insurance> result = qr.list();
+        session.getTransaction().commit();
+
+        if (result.isEmpty()) {
+            this.jButton2.setEnabled(false);
+        } else {
+            this.insurance = result.get(0);
+            this.jLabel40.setText(insurance.getProvider());
+            this.jLabel42.setText(insurance.getPlanName());
+            this.jLabel44.setText(insurance.getPolicyNumber());
+        }
+
+    }
+    
+    private void updateMedicalInfo(){   //Update medical info
+        session.beginTransaction();
+        Query qr = session.createQuery("from GeneralMedicalInfo where patientId =:code");
+        qr.setParameter("code", patient.getPatientId());
+        List<GeneralMedicalInfo> result = qr.list();
+        session.getTransaction().commit();
+        
+        if(!result.isEmpty()){
+            GeneralMedicalInfo medical = result.get(0);
+            this.jLabel23.setText(medical.getMainMedicalProblem());
+            this.jTextArea1.setText(medical.getMedicalProblems());
+            this.jTextArea2.setText(medical.getAllergies());
+        }
+    }
+    
+    private void updateVitals(){
+        
+        session.beginTransaction();
+        Query qr = session.createQuery("from Vitals where patientId =:code");
+        qr.setParameter("code", patient.getPatientId());
+        List<Vitals> result = qr.list();
+        session.getTransaction().commit();
+        
+        if(!result.isEmpty()){
+            Vitals vitals = result.get(0);
+            
+            jLabel3.setText(vitals.getDateTime().toString());
+            jLabel5.setText(vitals.getBpSystolic()+"");
+            jLabel7.setText(vitals.getBpDiastolic()+"");
+            jLabel9.setText(vitals.getTemperature()+"");
+            jLabel11.setText(vitals.getBmi()+"");
+            jLabel15.setText(vitals.getWeight()+"");
+            jLabel17.setText(vitals.getOxygenSaturation()+"");
+            jLabel19.setText(vitals.getPulse()+"");
+            jLabel21.setText(vitals.getHeight()+"");
+        }
+        
     }
 
     /**
@@ -96,7 +181,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Most recent visit vitals: ");
 
-        jLabel3.setText("2014-12-12");
+        jLabel3.setText("value");
 
         jLabel4.setText("Blood pressure systolic:");
 
@@ -117,7 +202,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Age:");
 
-        jLabel13.setText("23");
+        jLabel13.setText("value");
 
         jLabel14.setText("Weight:");
 
@@ -138,11 +223,12 @@ public class PatientInfoInterface extends javax.swing.JPanel {
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel22.setText("Medical issue:");
 
-        jLabel23.setText("High blood pressure");
+        jLabel23.setText("value");
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel24.setText(" Medical problems:");
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
@@ -150,6 +236,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
         jLabel25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel25.setText("Allergies:");
 
+        jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
@@ -159,15 +246,15 @@ public class PatientInfoInterface extends javax.swing.JPanel {
 
         jLabel27.setText("Birthday:");
 
-        jLabel28.setText("1991-03-15");
+        jLabel28.setText("none");
 
         jLabel29.setText("Sex:");
 
-        jLabel30.setText("male");
+        jLabel30.setText("none");
 
         jLabel31.setText("Marital status:");
 
-        jLabel32.setText("single");
+        jLabel32.setText("none");
 
         jLabel33.setText("Job:");
 
@@ -178,7 +265,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
 
         jLabel36.setText("Phone:");
 
-        jLabel37.setText("0715181576");
+        jLabel37.setText("none");
 
         jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setText("More");
@@ -203,15 +290,15 @@ public class PatientInfoInterface extends javax.swing.JPanel {
 
         jLabel39.setText("Provider:");
 
-        jLabel40.setText("Celinco");
+        jLabel40.setText("none");
 
         jLabel41.setText("Plan name:");
 
-        jLabel42.setText("Life Insuarence");
+        jLabel42.setText("none");
 
         jLabel43.setText("Policy number:");
 
-        jLabel44.setText("2324453666N");
+        jLabel44.setText("none");
 
         jLabel45.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel45.setText("Patient Information");
@@ -250,7 +337,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
                                 .addComponent(jLabel36)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel37)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel43)
@@ -348,7 +435,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24)
                     .addComponent(jLabel25))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -421,18 +508,18 @@ public class PatientInfoInterface extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
                     .addComponent(jLabel34))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        DemographicInterface demographic = new DemographicInterface(session);
+        DemographicInterface demographic = new DemographicInterface(session, this.patient);
         demographic.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        InsuarenceInterface insuarence = new InsuarenceInterface(session);
+        InsuarenceInterface insuarence = new InsuarenceInterface(session, this.insurance);
         insuarence.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 

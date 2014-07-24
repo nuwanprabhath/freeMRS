@@ -4,7 +4,12 @@
  */
 package freemrs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import org.hibernate.Session;
 
 /**
@@ -17,10 +22,28 @@ public class InsuarenceInterface extends javax.swing.JFrame {
      * Creates new form InsuarenceInterface
      */
     Session session;
+    Insurance insurance;
+    boolean toggle = true;     //To toggle between edit mode
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 
-    public InsuarenceInterface(Session session) {
+    public InsuarenceInterface(Session session, Insurance insurance) {
         this.session = session;
+        this.insurance = insurance;
         initComponents();
+        if (insurance != null) {
+            updateData();
+        }
+        showHideEdit(toggle);
+        jButton1.setEnabled(toggle);
+        //showHideEdit(false);
+
+    }
+
+    private void updateData() {       //update the info in window
+        this.jLabel3.setText(insurance.getProvider());
+        this.jLabel5.setText(insurance.getPlanName());
+        this.jLabel7.setText(insurance.getEffectiveDate().toString());
+        this.jLabel9.setText(insurance.getPolicyNumber());
     }
 
     /**
@@ -43,17 +66,13 @@ public class InsuarenceInterface extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
-        jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
 
         setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
         setResizable(false);
@@ -66,28 +85,27 @@ public class InsuarenceInterface extends javax.swing.JFrame {
 
         jLabel2.setText("Provider:");
 
-        jLabel3.setText("Cylinco");
+        jLabel3.setText("none");
 
         jLabel4.setText("Plan name:");
 
-        jLabel5.setText("Life");
+        jLabel5.setText("none");
 
         jLabel6.setText("Effective date:");
 
-        jLabel7.setText("2006-03-05");
+        jLabel7.setText("none");
 
         jLabel8.setText("Policy number:");
 
-        jLabel9.setText("27262729N");
-
-        jLabel10.setText("Patient name:");
-
-        jLabel11.setText("Nuwan Prabhath");
+        jLabel9.setText("none");
 
         jToggleButton1.setBackground(new java.awt.Color(204, 204, 255));
         jToggleButton1.setText("Edit");
-
-        jTextField1.setText(" ");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField2.setText(" ");
 
@@ -99,6 +117,11 @@ public class InsuarenceInterface extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(204, 255, 204));
         jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
@@ -107,9 +130,6 @@ public class InsuarenceInterface extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-
-        jButton3.setBackground(new java.awt.Color(255, 204, 204));
-        jButton3.setText("Delete");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -121,16 +141,14 @@ public class InsuarenceInterface extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel10))
-                        .addGap(32, 32, 32)
+                            .addComponent(jLabel2))
+                        .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -141,19 +159,17 @@ public class InsuarenceInterface extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel9))))
-                .addGap(36, 36, 36)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                    .addComponent(jTextField2)
                     .addComponent(jTextField3)
                     .addComponent(jTextField4)
-                    .addComponent(jTextField5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(66, 66, 66))
         );
         jPanel1Layout.setVerticalGroup(
@@ -163,40 +179,35 @@ public class InsuarenceInterface extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel10))
+                        .addComponent(jToggleButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(jToggleButton1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(109, Short.MAX_VALUE))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -218,6 +229,55 @@ public class InsuarenceInterface extends javax.swing.JFrame {
 
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        System.out.println(toggle);
+        if (toggle) {
+            toggle = false;
+            this.showHideEdit(toggle);
+            jButton1.setEnabled(toggle);
+        } else {
+            toggle = true;
+            this.showHideEdit(toggle);
+            jButton1.setEnabled(toggle);
+        }
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            java.sql.Date sqlDate = null;
+            java.util.Date invoiceDate = formatDate.parse(jTextField4.getText());
+            sqlDate = new java.sql.Date(invoiceDate.getTime());
+            
+            insurance.setProvider(jTextField2.getText());
+            insurance.setPlanName(jTextField3.getText());
+            insurance.setEffectiveDate(sqlDate);
+            insurance.setPolicyNumber(jTextField5.getText());
+            
+            session.beginTransaction();
+            session.update(insurance);
+            session.getTransaction().commit();
+            
+            JOptionPane.showMessageDialog(null, "Update Successfull", "Update", JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Please enter date in correct format(yyyy-MM-dd)", "ALERT", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+    private void showHideEdit(boolean b) {  //Showing and hiding edit data
+        this.jTextField2.setVisible(b);
+        this.jTextField3.setVisible(b);
+        this.jTextField4.setVisible(b);
+        this.jTextField5.setVisible(b);
+        
+        jTextField2.setText(jLabel3.getText());
+        jTextField3.setText(jLabel5.getText());
+        jTextField4.setText(jLabel7.getText());
+        jTextField5.setText(jLabel9.getText());
+    
+    }
 
     /**
      * @param args the command line arguments
@@ -250,17 +310,15 @@ public class InsuarenceInterface extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Session s = null;
-                new InsuarenceInterface(s).setVisible(true);
+                Insurance p = null;
+                new InsuarenceInterface(s, p).setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -271,11 +329,11 @@ public class InsuarenceInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+
 }

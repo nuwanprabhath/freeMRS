@@ -63,7 +63,7 @@
                               <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="74" max="32767" attributes="0"/>
+                      <EmptySpace pref="110" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
@@ -188,7 +188,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" pref="15" max="-2" attributes="0"/>
                   <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -278,7 +278,7 @@
                   <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="56" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -304,7 +304,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="2014-12-12"/>
+        <Property name="text" type="java.lang.String" value="value"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -357,7 +357,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel13">
       <Properties>
-        <Property name="text" type="java.lang.String" value="23"/>
+        <Property name="text" type="java.lang.String" value="value"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel14">
@@ -410,7 +410,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel23">
       <Properties>
-        <Property name="text" type="java.lang.String" value="High blood pressure"/>
+        <Property name="text" type="java.lang.String" value="value"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel24">
@@ -430,6 +430,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="jTextArea1">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>
@@ -453,6 +454,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="jTextArea2">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
           </Properties>
@@ -476,7 +478,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel28">
       <Properties>
-        <Property name="text" type="java.lang.String" value="1991-03-15"/>
+        <Property name="text" type="java.lang.String" value="none"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel29">
@@ -486,7 +488,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel30">
       <Properties>
-        <Property name="text" type="java.lang.String" value="male"/>
+        <Property name="text" type="java.lang.String" value="none"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel31">
@@ -496,7 +498,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel32">
       <Properties>
-        <Property name="text" type="java.lang.String" value="single"/>
+        <Property name="text" type="java.lang.String" value="none"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel33">
@@ -524,7 +526,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel37">
       <Properties>
-        <Property name="text" type="java.lang.String" value="0715181576"/>
+        <Property name="text" type="java.lang.String" value="none"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
@@ -566,7 +568,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel40">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Celinco"/>
+        <Property name="text" type="java.lang.String" value="none"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel41">
@@ -576,7 +578,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel42">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Life Insuarence"/>
+        <Property name="text" type="java.lang.String" value="none"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel43">
@@ -586,7 +588,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel44">
       <Properties>
-        <Property name="text" type="java.lang.String" value="2324453666N"/>
+        <Property name="text" type="java.lang.String" value="none"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel45">

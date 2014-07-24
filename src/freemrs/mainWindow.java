@@ -4,12 +4,14 @@
  */
 package freemrs;
 
-
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -26,62 +28,64 @@ public class mainWindow extends javax.swing.JFrame {
     PatientInfoInterface patient;
     VitalsInterface vitals;
     PrescriptionInterface pres;
+
+    Patient currentPatient = null;  //To store the current searched patient
+
     public mainWindow(Session session) {
-        this.session=session;
-        
+        this.session = session;
+
         initComponents();
         patient = new PatientInfoInterface(this.session);
         welcome = new WelcomeInterface();
         vitals = new VitalsInterface(this.session);
         pres = new PrescriptionInterface(this.session);
-        
+
         this.add(patient);
         this.add(welcome);
         this.add(vitals);
         this.add(pres);
         viewVoid();
         //this.setPreferredSize(new Dimension(1000,700));
-       // setSize(new Dimension(1000, 700));
-        
-        
+        // setSize(new Dimension(1000, 700));
+
         //this.setExtendedState(Frame.MAXIMIZED_BOTH);
-        
-         
     }
-    
-    private void viewPatientInfo(){         //Showing patient info panal
+
+    private void viewPatientInfo() {         //Showing patient info panal
         welcome.setVisible(false);
         vitals.setVisible(false);
         pres.setVisible(false);
         patient.setBounds(0, 224, 995, 445);
         patient.setVisible(true);
-        
+        patient.updateInfo(currentPatient);
+
     }
-    
-    private void viewVitals(){
+
+    private void viewVitals() {
         welcome.setVisible(false);
         patient.setVisible(false);
         pres.setVisible(false);
         vitals.setBounds(0, 224, 995, 445);
         vitals.setVisible(true);
-        
+        vitals.updateInfo(currentPatient);
+
     }
-    
-    private void viewVoid(){                //Show void screen at startup before search patient
-        this.setPreferredSize(new Dimension(1000,700));
+
+    private void viewVoid() {                //Show void screen at startup before search patient
+        this.setPreferredSize(new Dimension(1000, 700));
         setSize(new Dimension(1000, 700));
         welcome.setBounds(0, 224, 995, 445);
         welcome.setVisible(true);
     }
-    
-    private void viewPresciptions(){
+
+    private void viewPresciptions() {
         welcome.setVisible(false);
         patient.setVisible(false);
         vitals.setVisible(false);
         pres.setBounds(0, 224, 995, 445);
         pres.setVisible(true);
+        pres.updateInfo(currentPatient);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -116,6 +120,11 @@ public class mainWindow extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setText("Find");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField2.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -224,16 +233,39 @@ public class mainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        viewPatientInfo();
+        if (this.currentPatient != null) {
+            viewPatientInfo();
+        }else JOptionPane.showMessageDialog(this,"Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (this.currentPatient != null) {
         viewVitals();
+        }else JOptionPane.showMessageDialog(this,"Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (this.currentPatient != null) {
         viewPresciptions();
+        }else JOptionPane.showMessageDialog(this,"Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        session.beginTransaction();
+        Query qr = session.createQuery("from Patient where name =:code");
+        qr.setParameter("code", jTextField2.getText());
+        List<Patient> result = qr.list();
+        session.getTransaction().commit();
+
+        if (result.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Patient does not exist", "No patient found", JOptionPane.INFORMATION_MESSAGE);
+        } else if (result.size() == 1) {
+            this.currentPatient = result.get(0);
+            System.out.println(currentPatient.getName());
+        } else if (result.size() > 1) {
+
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,9 +297,9 @@ public class mainWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Session s= null;
+                Session s = null;
                 new mainWindow(s).setVisible(true);
-                
+
             }
         });
     }

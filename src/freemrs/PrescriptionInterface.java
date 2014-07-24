@@ -8,8 +8,12 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -22,10 +26,63 @@ public class PrescriptionInterface extends javax.swing.JPanel {
      * Creates new form PrescriptionInterface
      */
     Session session;
-
+    Patient patient;
+    GeneralMedicalInfo medical;     //To store medical info specially changed allergies
     public PrescriptionInterface(Session session) {
         initComponents();
         this.session = session;
+    }
+
+    public void updateInfo(Patient patient) {
+        this.patient = patient;
+        updateMedicalInfo();
+        updateDemographic();
+        updatePrescription();
+        jButton2.setEnabled(false);
+    }
+
+    private void updateMedicalInfo() {   //update main medical info
+        session.beginTransaction();
+        Query qr = session.createQuery("from GeneralMedicalInfo where patientId =:code");
+        qr.setParameter("code", patient.getPatientId());
+        List<GeneralMedicalInfo> result = qr.list();
+        session.getTransaction().commit();
+
+        if (!result.isEmpty()) {
+            medical = result.get(0);
+
+            jLabel11.setText(medical.getMainMedicalProblem());
+            jTextArea1.setText(medical.getAllergies());
+
+        }
+    }
+
+    private void updateDemographic() {      //Update age and name
+        Calendar today = Calendar.getInstance();
+        Calendar birthDate = Calendar.getInstance();
+        birthDate.setTime(patient.getBirthday());
+        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        this.jLabel4.setText(age + "");
+        this.jLabel2.setText(patient.getName());
+    }
+
+    private void updatePrescription() {      //Load prescription information
+
+        session.beginTransaction();
+        Query qr = session.createQuery("from Prescription where patientId =:code order by dateTime DESC");
+        qr.setParameter("code", patient.getPatientId());
+        List<Prescription> result = qr.list();
+        session.getTransaction().commit();
+
+        if (!result.isEmpty()) {
+
+            jComboBox1.removeAllItems();
+            for (Prescription p : result) {
+                jComboBox1.addItem(p);
+            }
+
+        }
+
     }
 
     /**
@@ -58,6 +115,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -95,18 +153,34 @@ public class PrescriptionInterface extends javax.swing.JPanel {
 
         jLabel9.setText("Prescription:");
 
+        jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
         jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setText("Add new prescription");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(153, 255, 153));
         jButton2.setText("Save prescription");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(153, 255, 153));
         jButton3.setText("Save allergies");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Search");
@@ -117,6 +191,8 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         });
 
         jLabel10.setText("Search drug online:");
+
+        jLabel11.setText("Value");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -145,9 +221,11 @@ public class PrescriptionInterface extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)
                         .addGap(71, 71, 71)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addGap(92, 92, 92))
@@ -180,7 +258,8 @@ public class PrescriptionInterface extends javax.swing.JPanel {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel11))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +299,10 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        Prescription pres = (Prescription) jComboBox1.getSelectedItem();
+        if (pres != null) {
+            jTextArea2.setText(pres.getNotes());
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -244,6 +326,44 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jTextArea2.setText("");
+        jTextArea2.setEditable(true);
+        jButton2.setEnabled(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Prescription current = new Prescription();
+
+        if (!jTextArea2.equals("")) {
+            java.util.Date date = new java.util.Date();
+            current.setNotes(jTextArea2.getText());
+            current.setDateTime(date);
+            current.setPatientId(patient.getPatientId());
+
+            session.beginTransaction();
+            session.save(current);
+            session.getTransaction().commit();
+
+            JOptionPane.showMessageDialog(null, "Prescription saved successfully", "Prescriptions", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Please enter drugs", "ALERT", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        medical.setAllergies(jTextArea1.getText());
+        session.beginTransaction();
+        session.update(medical);
+        session.getTransaction().commit();
+        
+        JOptionPane.showMessageDialog(null, "Allergies saved successfully", "Prescriptions", JOptionPane.INFORMATION_MESSAGE);
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -252,6 +372,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 24, 2014 5:46:32 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="freemrs.GeneralMedicalInfo" table="general_medical_info" catalog="freemrs">
+        <id name="patientId" type="int">
+            <column name="patient_id" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="mainMedicalProblem" type="string">
+            <column name="main_medical_problem" length="70" not-null="true" />
+        </property>
+        <property name="medicalProblems" type="string">
+            <column name="medical_problems" length="65535" not-null="true" />
+        </property>
+        <property name="allergies" type="string">
+            <column name="allergies" length="65535" not-null="true" />
+        </property>
+        <property name="immunizations" type="string">
+            <column name="immunizations" length="65535" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

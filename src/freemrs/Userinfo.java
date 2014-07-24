@@ -1,5 +1,5 @@
 package freemrs;
-// Generated Jun 11, 2014 11:54:01 AM by Hibernate Tools 3.2.1.GA
+// Generated Jul 24, 2014 5:46:32 PM by Hibernate Tools 3.6.0
 
 
 

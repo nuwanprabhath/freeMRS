@@ -14,7 +14,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-
 /**
  *
  * @author Nuwan Prabhath
@@ -158,36 +157,38 @@ public class login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
-        
+
         SessionFactory sessionFactory = NewHibernateUtil.getSessionFactory(); //gets the hibernate sessionFactory created at the program start
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Query qr=session.createQuery("from Userinfo where username=:code");
+        Query qr = session.createQuery("from Userinfo where username=:code");
         qr.setParameter("code", username);
-        
-        List<Userinfo> lst=qr.list();
+
+        List<Userinfo> lst = qr.list();
         session.getTransaction().commit();
-        
-        Userinfo user=null;
-        if(!lst.isEmpty()) user=lst.get(0);
-        
-        boolean access=false;
-        if(user==null)
-        {
+
+        Userinfo user = null;
+        if (!lst.isEmpty()) {
+            user = lst.get(0);
+        }
+
+        boolean access = false;
+        if (user == null) {
             jTextField1.setText("");
             jPasswordField1.setText("");
-            JOptionPane.showMessageDialog(this,"User does not exist", "Login error", JOptionPane.ERROR_MESSAGE);
-        }
-        else
-        {
+            JOptionPane.showMessageDialog(this, "User does not exist", "Login error", JOptionPane.ERROR_MESSAGE);
+        } else {
             try {
-                access=UserPasswordMatch.compareData(user, password);
+                access = UserPasswordMatch.compareData(user, password);
             } catch (Exception ex) {
                 System.out.println("Error");
             }
         }
-        
-        if(access) new mainWindow(session).setVisible(true);
+
+        if (access) {
+            new mainWindow(session).setVisible(true);
+            this.setVisible(false);
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
