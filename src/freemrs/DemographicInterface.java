@@ -25,8 +25,10 @@ public class DemographicInterface extends javax.swing.JFrame {
     Session session;
     Patient patient;
     boolean toggle = false;     //To toggle between edit mode
+    boolean newPatient = false;
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-    
+    mainWindow main;
+
     public DemographicInterface(Session session, Patient patient) {
         this.session = session;
         this.patient = patient;
@@ -34,7 +36,22 @@ public class DemographicInterface extends javax.swing.JFrame {
         if (patient != null) {
             updateData();
         }
-        showHideEdit(false);
+        showHideEdit(toggle);
+        jButton1.setEnabled(toggle);
+    }
+
+    public DemographicInterface(Session session, Patient patient, boolean newPatient,mainWindow main) {
+        this.session = session;
+        this.patient = patient;
+        this.toggle = newPatient;
+        this.newPatient = newPatient;
+        this.main=main;
+        
+        initComponents();
+        if (patient != null) {
+            clearData();
+        }
+        showHideEdit(toggle);
         jButton1.setEnabled(toggle);
     }
 
@@ -52,6 +69,18 @@ public class DemographicInterface extends javax.swing.JFrame {
         this.jLabel13.setText(patient.getJob());
         this.jLabel15.setText(patient.getPhone());
         this.jTextArea1.setText(patient.getAddress());
+    }
+
+    private void clearData() {
+
+        this.jLabel3.setText("");
+        this.jLabel5.setText("");
+        this.jLabel7.setText("");
+        this.jLabel9.setText("");
+        this.jLabel11.setText("");
+        this.jLabel13.setText("");
+        this.jLabel15.setText("");
+        this.jTextArea1.setText("");
     }
 
     /**
@@ -231,11 +260,11 @@ public class DemographicInterface extends javax.swing.JFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if (toggle) {
-            toggle=false;
+            toggle = false;
             this.showHideEdit(toggle);
             jButton1.setEnabled(toggle);
         } else {
-            toggle=true;
+            toggle = true;
             this.showHideEdit(toggle);
             jButton1.setEnabled(toggle);
         }
@@ -249,11 +278,11 @@ public class DemographicInterface extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            
+
             java.sql.Date sqlDate = null;
             java.util.Date invoiceDate = formatDate.parse(jTextField3.getText());
             sqlDate = new java.sql.Date(invoiceDate.getTime());
-            
+
             patient.setName(jTextField2.getText());
             patient.setBirthday(sqlDate);
             patient.setSex(jComboBox1.getSelectedItem().toString());
@@ -261,17 +290,23 @@ public class DemographicInterface extends javax.swing.JFrame {
             patient.setJob(jTextField4.getText());
             patient.setPhone(jTextField5.getText());
             patient.setAddress(jTextArea1.getText());
-            
+
             session.beginTransaction();
-            session.update(patient);
+            if (newPatient) {
+                session.save(patient);
+                main.currentPatient=patient;
+            } else {
+                session.update(patient);
+            }
             session.getTransaction().commit();
+            main.updateAllInterfaces();
             
             JOptionPane.showMessageDialog(null, "Update Successfull", "Update", JOptionPane.INFORMATION_MESSAGE);
-        
+
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Please enter date in correct format(yyyy-MM-dd)", "ALERT", JOptionPane.WARNING_MESSAGE);
         }
-            
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void showHideEdit(boolean b) {  //Showing and hiding edit data
@@ -282,7 +317,7 @@ public class DemographicInterface extends javax.swing.JFrame {
         jTextField4.setVisible(b);
         jTextField5.setVisible(b);
         jTextArea1.setEditable(b);
-        
+
         jTextField2.setText(jLabel5.getText());
         jTextField3.setText(jLabel7.getText());
         jTextField4.setText(jLabel13.getText());

@@ -25,11 +25,11 @@ public class VitalsInterface extends javax.swing.JPanel {
     List<Vitals> result;        //To store vital information
     GeneralMedicalInfo medical; //To store medical information
     PreviousVitalsInterface previous;
+    boolean newPatient = false;
 
     public VitalsInterface(Session session) {
         this.session = session;
         initComponents();
-        
 
     }
 
@@ -58,6 +58,7 @@ public class VitalsInterface extends javax.swing.JPanel {
         session.getTransaction().commit();
 
         if (!result.isEmpty()) {
+            jButton1.setEnabled(true);
             medical = result.get(0);
 
             jTextField10.setText(medical.getMainMedicalProblem());
@@ -66,6 +67,17 @@ public class VitalsInterface extends javax.swing.JPanel {
             jTextArea2.setText(medical.getAllergies());
             jTextArea3.setText(medical.getImmunizations());
 
+        } else {
+            
+            medical = new GeneralMedicalInfo();
+            medical.setPatientId(patient.getPatientId());
+
+            jTextField10.setText(" ");
+            jTextArea1.setText(" ");
+            jTextArea2.setText(" ");
+            jTextArea3.setText(" ");
+
+            this.newPatient = true;
         }
     }
 
@@ -75,12 +87,11 @@ public class VitalsInterface extends javax.swing.JPanel {
         qr.setParameter("code", patient.getPatientId());
         result = qr.list();
         session.getTransaction().commit();
-        
+
         if (!result.isEmpty()) {
             Vitals vitals = result.get(0);
             previous = new PreviousVitalsInterface(result);
-            
-            
+
             jLabel10.setText(vitals.getDateTime().toString());
 
             jLabel28.setText(vitals.getWeight() + "");
@@ -93,7 +104,20 @@ public class VitalsInterface extends javax.swing.JPanel {
             jLabel35.setText(vitals.getOxygenSaturation() + "");
             jLabel36.setText(vitals.getBmi() + "");
             jTextArea4.setText(vitals.getNotes());
-       }
+        }else{
+            previous=null;
+            jLabel10.setText("Date");
+            jLabel28.setText("value");
+            jLabel29.setText("value");
+            jLabel30.setText("value");
+            jLabel31.setText("value");
+            jLabel32.setText("value");
+            jLabel33.setText("value");
+            jLabel34.setText("value");
+            jLabel35.setText("value");
+            jLabel36.setText("value");
+            jTextArea4.setText(" ");
+        }
     }
 
     /**
@@ -185,7 +209,7 @@ public class VitalsInterface extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Medical issue:");
 
-        jLabel5.setText("value");
+        jLabel5.setText("none entered");
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel6.setText("Vitals");
@@ -279,6 +303,7 @@ public class VitalsInterface extends javax.swing.JPanel {
 
         jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setText("View Previous vitals");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -578,7 +603,11 @@ public class VitalsInterface extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(previous!=null){
         previous.setVisible(true);
+        }else{
+          JOptionPane.showMessageDialog(null, "No previous data found", "Vitals", JOptionPane.INFORMATION_MESSAGE);  
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -588,7 +617,11 @@ public class VitalsInterface extends javax.swing.JPanel {
         medical.setMainMedicalProblem(jTextField10.getText());
 
         session.beginTransaction();
-        session.update(medical);
+        if (newPatient) {           //Checking adding new record or editing and updating current one.
+            session.save(medical);
+        } else {
+            session.update(medical);
+        }
         session.getTransaction().commit();
 
         JOptionPane.showMessageDialog(null, "Update Successfull", "Update", JOptionPane.INFORMATION_MESSAGE);
@@ -598,10 +631,10 @@ public class VitalsInterface extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Vitals current = new Vitals();
 
-       try {
+        try {
             java.util.Date date = new java.util.Date();
             current.setDateTime(date);
-            
+
             current.setWeight(Float.parseFloat(jTextField1.getText()));
             current.setHeight(Float.parseFloat(jTextField2.getText()));
             current.setBpSystolic(Integer.parseInt(jTextField3.getText()));
@@ -612,7 +645,6 @@ public class VitalsInterface extends javax.swing.JPanel {
             current.setOxygenSaturation(Integer.parseInt(jTextField8.getText()));
             current.setNotes(jTextArea4.getText());
             current.setPatientId(patient.getPatientId());
-            
 
             if (jTextField1.getText().equals("") || jTextField2.getText().equals("")) {
                 //Checking weight and height are enterted or not
@@ -620,13 +652,13 @@ public class VitalsInterface extends javax.swing.JPanel {
                 //Cluclating BMI
                 float bmi = (Float.parseFloat(jTextField1.getText())) / ((Float.parseFloat(jTextField2.getText())) * (Float.parseFloat(jTextField2.getText())));
                 current.setBmi(bmi);
-                jTextField9.setText(bmi+"");
+                jTextField9.setText(bmi + "");
             }
-            
+
             session.beginTransaction();
             session.save(current);
             session.getTransaction().commit();
-            
+
             JOptionPane.showMessageDialog(null, "Vitals entered successfully", "Vitals", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception e) {

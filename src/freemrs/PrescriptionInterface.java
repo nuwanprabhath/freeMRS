@@ -28,6 +28,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     Session session;
     Patient patient;
     GeneralMedicalInfo medical;     //To store medical info specially changed allergies
+
     public PrescriptionInterface(Session session) {
         initComponents();
         this.session = session;
@@ -54,6 +55,9 @@ public class PrescriptionInterface extends javax.swing.JPanel {
             jLabel11.setText(medical.getMainMedicalProblem());
             jTextArea1.setText(medical.getAllergies());
 
+        } else {
+            jLabel11.setText("not found");
+            jTextArea1.setText("");
         }
     }
 
@@ -80,7 +84,8 @@ public class PrescriptionInterface extends javax.swing.JPanel {
             for (Prescription p : result) {
                 jComboBox1.addItem(p);
             }
-
+        }else{
+            jComboBox1.removeAllItems();
         }
 
     }
@@ -302,6 +307,8 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         Prescription pres = (Prescription) jComboBox1.getSelectedItem();
         if (pres != null) {
             jTextArea2.setText(pres.getNotes());
+        }else{
+            jTextArea2.setText("");
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -359,7 +366,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         session.beginTransaction();
         session.update(medical);
         session.getTransaction().commit();
-        
+
         JOptionPane.showMessageDialog(null, "Allergies saved successfully", "Prescriptions", JOptionPane.INFORMATION_MESSAGE);
 
     }//GEN-LAST:event_jButton3ActionPerformed

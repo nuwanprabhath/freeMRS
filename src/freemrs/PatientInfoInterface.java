@@ -82,6 +82,10 @@ public class PatientInfoInterface extends javax.swing.JPanel {
             this.jLabel23.setText(medical.getMainMedicalProblem());
             this.jTextArea1.setText(medical.getMedicalProblems());
             this.jTextArea2.setText(medical.getAllergies());
+        }else{
+            this.jLabel23.setText("none");
+            this.jTextArea1.setText("");
+            this.jTextArea2.setText("");
         }
     }
     
@@ -105,6 +109,16 @@ public class PatientInfoInterface extends javax.swing.JPanel {
             jLabel17.setText(vitals.getOxygenSaturation()+"");
             jLabel19.setText(vitals.getPulse()+"");
             jLabel21.setText(vitals.getHeight()+"");
+        }else{
+            jLabel3.setText("value");
+            jLabel5.setText("value");
+            jLabel7.setText("value");
+            jLabel9.setText("value");
+            jLabel11.setText("value");
+            jLabel15.setText("value");
+            jLabel17.setText("value");
+            jLabel19.setText("value");
+            jLabel21.setText("value");
         }
         
     }
