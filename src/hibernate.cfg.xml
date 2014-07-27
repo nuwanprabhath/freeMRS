@@ -15,5 +15,6 @@
     <mapping resource="freemrs/Vitals.hbm.xml"/>
     <mapping resource="freemrs/Prescription.hbm.xml"/>
     <mapping resource="freemrs/Schedule.hbm.xml"/>
+    <mapping resource="freemrs/Bill.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

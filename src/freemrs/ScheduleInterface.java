@@ -356,6 +356,8 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
+                jLabel13.setText(result.size()+"");
+                
             } else if (location && !time) {
                 Query qr = session.createQuery("from Schedule where date=:code1 and location=:code4");
                 qr.setParameter("code1", sqlDate);
@@ -363,6 +365,8 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
+                jLabel13.setText(result.size()+"");
+                
             } else if (!location && time) {
                 Query qr = session.createQuery("from Schedule where date=:code1 and startTime=:code2 and endTime=:code3");
                 qr.setParameter("code1", sqlDate);
@@ -371,12 +375,15 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
+                jLabel13.setText(result.size()+"");
+                
             } else if (!location && !time) {
                 Query qr = session.createQuery("from Schedule where date=:code1");
                 qr.setParameter("code1", sqlDate);
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
+                jLabel13.setText(result.size()+"");
             }
 
         } catch (ParseException ex) {

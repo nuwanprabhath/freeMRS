@@ -1,5 +1,5 @@
 package freemrs;
-// Generated Jul 26, 2014 11:08:38 PM by Hibernate Tools 3.6.0
+// Generated Jul 27, 2014 6:07:15 PM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;

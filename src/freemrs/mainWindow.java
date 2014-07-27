@@ -27,11 +27,13 @@ public class mainWindow extends javax.swing.JFrame {
      * Creates new form mainWindow
      */
     Session session;
+    
     WelcomeInterface welcome;
     PatientInfoInterface patient;
     VitalsInterface vitals;
     PrescriptionInterface pres;
     ScheduleInterface schedule;
+    BillingInterface billing;
 
     Patient currentPatient = null;  //To store the current searched patient
 
@@ -39,37 +41,38 @@ public class mainWindow extends javax.swing.JFrame {
         this.session = session;
 
         initComponents();
+        
         patient = new PatientInfoInterface(this.session);
         welcome = new WelcomeInterface();
         vitals = new VitalsInterface(this.session);
         pres = new PrescriptionInterface(this.session);
         schedule = new ScheduleInterface(this.session);
-
+        billing = new BillingInterface(this.session);
+                
         this.add(patient);
         this.add(welcome);
         this.add(vitals);
         this.add(pres);
         this.add(schedule);
-        viewVoid();
+        this.add(billing);
         
-        UIManager UI=new UIManager();
+        viewVoid();             //showing welcome screen
+
+        UIManager UI = new UIManager();
         UI.put("OptionPane.background", Color.WHITE);
         UI.put("OptionPane.messagebackground", Color.WHITE);
         UI.put("OptionPane.textbackground", Color.white);
 //        UI.put("Panel.background", Color.WHITE);
-        
-        
+
     }
 
-    
-    
-    
     private void viewPatientInfo() {         //Showing patient info panal
         welcome.setVisible(false);
         vitals.setVisible(false);
         pres.setVisible(false);
         schedule.setVisible(false);
-        
+        billing.setVisible(false);
+
         patient.setBounds(0, 224, 995, 445);
         patient.setVisible(true);
         patient.updateInfo(currentPatient);
@@ -81,7 +84,8 @@ public class mainWindow extends javax.swing.JFrame {
         patient.setVisible(false);
         pres.setVisible(false);
         schedule.setVisible(false);
-        
+        billing.setVisible(false);
+
         vitals.setBounds(0, 224, 995, 445);
         vitals.setVisible(true);
         vitals.updateInfo(currentPatient);
@@ -100,26 +104,42 @@ public class mainWindow extends javax.swing.JFrame {
         patient.setVisible(false);
         vitals.setVisible(false);
         schedule.setVisible(false);
-        
+        billing.setVisible(false);
+
         pres.setBounds(0, 224, 995, 445);
         pres.setVisible(true);
         pres.updateInfo(currentPatient);
     }
-    
-    private void viewSchedule(){
+
+    private void viewSchedule() {
         welcome.setVisible(false);
         patient.setVisible(false);
         vitals.setVisible(false);
         pres.setVisible(false);
-        
+        billing.setVisible(false);
+
         schedule.setBounds(0, 224, 995, 445);
         schedule.setVisible(true);
         schedule.updateInfo(currentPatient);
+
+    }
+    
+    private void viewBilling(){
+        welcome.setVisible(false);
+        patient.setVisible(false);
+        vitals.setVisible(false);
+        pres.setVisible(false);
+        schedule.setVisible(false);
+        
+        billing.setBounds(0, 224, 995, 445);
+        billing.setVisible(true);
+        billing.updateInfo(currentPatient);
+        
         
     }
 
-     void updateAllInterfaces() {
-        vitals.updateInfo(currentPatient);      
+    void updateAllInterfaces() {
+        vitals.updateInfo(currentPatient);
         patient.updateInfo(currentPatient);
         pres.updateInfo(currentPatient);
         schedule.updateInfo(currentPatient);
@@ -146,6 +166,7 @@ public class mainWindow extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FreeMRS");
@@ -220,38 +241,51 @@ public class mainWindow extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setBackground(new java.awt.Color(255, 255, 255));
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bill.jpg"))); // NOI18N
+        jButton7.setText("Billing");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton7)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton6)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(19, 19, 19))
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(0, 555, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(19, 19, 19))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,16 +301,16 @@ public class mainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jButton5))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton6)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButton5)))
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton6)
+                        .addComponent(jButton7))
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -290,7 +324,7 @@ public class mainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 421, Short.MAX_VALUE))
+                .addGap(0, 402, Short.MAX_VALUE))
         );
 
         pack();
@@ -343,8 +377,8 @@ public class mainWindow extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         this.currentPatient = new Patient();
-        
-        DemographicInterface demographic = new DemographicInterface(session, currentPatient, true,this);
+
+        DemographicInterface demographic = new DemographicInterface(session, currentPatient, true, this);
         demographic.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -355,6 +389,15 @@ public class mainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        if (this.currentPatient != null) {
+            viewBilling();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -399,6 +442,7 @@ public class mainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
