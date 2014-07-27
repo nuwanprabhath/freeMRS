@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 26, 2014 11:08:39 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="freemrs.Schedule" table="schedule" catalog="freemrs">
+        <id name="scheduleId" type="java.lang.Integer">
+            <column name="schedule_id" />
+            <generator class="identity" />
+        </id>
+        <property name="patientId" type="int">
+            <column name="patient_id" not-null="true" />
+        </property>
+        <property name="date" type="timestamp">
+            <column name="date" length="19" not-null="true" />
+        </property>
+        <property name="startTime" type="int">
+            <column name="start_time" not-null="true" />
+        </property>
+        <property name="endTime" type="int">
+            <column name="end_time" not-null="true" />
+        </property>
+        <property name="location" type="string">
+            <column name="location" length="40" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

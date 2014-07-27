@@ -4,11 +4,14 @@
  */
 package freemrs;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import org.hibernate.Query;
@@ -28,6 +31,7 @@ public class mainWindow extends javax.swing.JFrame {
     PatientInfoInterface patient;
     VitalsInterface vitals;
     PrescriptionInterface pres;
+    ScheduleInterface schedule;
 
     Patient currentPatient = null;  //To store the current searched patient
 
@@ -39,22 +43,33 @@ public class mainWindow extends javax.swing.JFrame {
         welcome = new WelcomeInterface();
         vitals = new VitalsInterface(this.session);
         pres = new PrescriptionInterface(this.session);
+        schedule = new ScheduleInterface(this.session);
 
         this.add(patient);
         this.add(welcome);
         this.add(vitals);
         this.add(pres);
+        this.add(schedule);
         viewVoid();
-        //this.setPreferredSize(new Dimension(1000,700));
-        // setSize(new Dimension(1000, 700));
-
-        //this.setExtendedState(Frame.MAXIMIZED_BOTH);
+        
+        UIManager UI=new UIManager();
+        UI.put("OptionPane.background", Color.WHITE);
+        UI.put("OptionPane.messagebackground", Color.WHITE);
+        UI.put("OptionPane.textbackground", Color.white);
+//        UI.put("Panel.background", Color.WHITE);
+        
+        
     }
 
+    
+    
+    
     private void viewPatientInfo() {         //Showing patient info panal
         welcome.setVisible(false);
         vitals.setVisible(false);
         pres.setVisible(false);
+        schedule.setVisible(false);
+        
         patient.setBounds(0, 224, 995, 445);
         patient.setVisible(true);
         patient.updateInfo(currentPatient);
@@ -65,6 +80,8 @@ public class mainWindow extends javax.swing.JFrame {
         welcome.setVisible(false);
         patient.setVisible(false);
         pres.setVisible(false);
+        schedule.setVisible(false);
+        
         vitals.setBounds(0, 224, 995, 445);
         vitals.setVisible(true);
         vitals.updateInfo(currentPatient);
@@ -82,15 +99,30 @@ public class mainWindow extends javax.swing.JFrame {
         welcome.setVisible(false);
         patient.setVisible(false);
         vitals.setVisible(false);
+        schedule.setVisible(false);
+        
         pres.setBounds(0, 224, 995, 445);
         pres.setVisible(true);
         pres.updateInfo(currentPatient);
+    }
+    
+    private void viewSchedule(){
+        welcome.setVisible(false);
+        patient.setVisible(false);
+        vitals.setVisible(false);
+        pres.setVisible(false);
+        
+        schedule.setBounds(0, 224, 995, 445);
+        schedule.setVisible(true);
+        schedule.updateInfo(currentPatient);
+        
     }
 
      void updateAllInterfaces() {
         vitals.updateInfo(currentPatient);      
         patient.updateInfo(currentPatient);
         pres.updateInfo(currentPatient);
+        schedule.updateInfo(currentPatient);
     }
 
     /**
@@ -113,6 +145,7 @@ public class mainWindow extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FreeMRS");
@@ -170,10 +203,20 @@ public class mainWindow extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setBackground(new java.awt.Color(153, 204, 255));
         jButton5.setText("New");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setBackground(new java.awt.Color(255, 255, 255));
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/scheduleEdt.jpg"))); // NOI18N
+        jButton6.setText("Schedule");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -200,8 +243,10 @@ public class mainWindow extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4)))
-                        .addGap(0, 172, Short.MAX_VALUE)))
+                                .addComponent(jButton4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton6)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
@@ -225,8 +270,11 @@ public class mainWindow extends javax.swing.JFrame {
                             .addComponent(jButton5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton6)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -242,7 +290,7 @@ public class mainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 410, Short.MAX_VALUE))
+                .addGap(0, 421, Short.MAX_VALUE))
         );
 
         pack();
@@ -286,7 +334,7 @@ public class mainWindow extends javax.swing.JFrame {
             this.currentPatient = result.get(0);
 
             updateAllInterfaces();  //After searching new patient updating all interfaces
-            JOptionPane.showMessageDialog(this, "Patient found", "Search", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, ("Patient found"), "Search", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(currentPatient.getName());
         } else if (result.size() > 1) {
 
@@ -299,6 +347,14 @@ public class mainWindow extends javax.swing.JFrame {
         DemographicInterface demographic = new DemographicInterface(session, currentPatient, true,this);
         demographic.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        if (this.currentPatient != null) {
+            viewSchedule();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,6 +398,7 @@ public class mainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

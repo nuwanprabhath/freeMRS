@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 24, 2014 5:46:32 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Jul 26, 2014 11:08:39 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="freemrs.Prescription" table="prescription" catalog="freemrs">
         <id name="prescriptionId" type="java.lang.Integer">
             <column name="prescription_id" />
-            <generator class="identity" />
+            <generator class="identity"></generator>
         </id>
         <property name="patientId" type="int">
             <column name="patient_id" not-null="true" />
