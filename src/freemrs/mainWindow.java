@@ -42,7 +42,7 @@ public class mainWindow extends javax.swing.JFrame {
 
         initComponents();
         
-        patient = new PatientInfoInterface(this.session);
+        patient = new PatientInfoInterface(this.session,this);
         welcome = new WelcomeInterface();
         vitals = new VitalsInterface(this.session);
         pres = new PrescriptionInterface(this.session);
@@ -58,10 +58,11 @@ public class mainWindow extends javax.swing.JFrame {
         
         viewVoid();             //showing welcome screen
 
-        UIManager UI = new UIManager();
-        UI.put("OptionPane.background", Color.WHITE);
-        UI.put("OptionPane.messagebackground", Color.WHITE);
-        UI.put("OptionPane.textbackground", Color.white);
+//        UIManager UI = new UIManager();
+//        UI.put("OptionPane.background", Color.WHITE);
+//        UI.put("Panel.background", Color.WHITE);
+       // UI.put("OptionPane.messagebackground", Color.WHITE);
+       // UI.put("OptionPane.textbackground", Color.white);
 //        UI.put("Panel.background", Color.WHITE);
 
     }
@@ -335,7 +336,7 @@ public class mainWindow extends javax.swing.JFrame {
         if (this.currentPatient != null) {
             viewPatientInfo();
         } else {
-            JOptionPane.showMessageDialog(this, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -343,7 +344,7 @@ public class mainWindow extends javax.swing.JFrame {
         if (this.currentPatient != null) {
             viewVitals();
         } else {
-            JOptionPane.showMessageDialog(this, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -351,7 +352,7 @@ public class mainWindow extends javax.swing.JFrame {
         if (this.currentPatient != null) {
             viewPresciptions();
         } else {
-            JOptionPane.showMessageDialog(this, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please search a patient", "Search patient", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -363,11 +364,13 @@ public class mainWindow extends javax.swing.JFrame {
         session.getTransaction().commit();
 
         if (result.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Patient does not exist", "No patient found", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Patient does not exist", "No patient found", JOptionPane.INFORMATION_MESSAGE);
         } else if (result.size() == 1) {
             this.currentPatient = result.get(0);
 
             updateAllInterfaces();  //After searching new patient updating all interfaces
+            UIManager UI = new UIManager();
+       
             JOptionPane.showMessageDialog(this, ("Patient found"), "Search", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(currentPatient.getName());
         } else if (result.size() > 1) {

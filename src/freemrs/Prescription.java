@@ -53,7 +53,10 @@ public class Prescription  implements java.io.Serializable {
         this.notes = notes;
     }
 
-
+     @Override
+     public String toString(){
+    return dateTime.toString();
+}
 
 
 }

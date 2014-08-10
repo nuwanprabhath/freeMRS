@@ -74,10 +74,7 @@
                                       <Component id="jLabel16" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel15" alignment="1" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel14" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
-                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Component id="jComboBox1" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>

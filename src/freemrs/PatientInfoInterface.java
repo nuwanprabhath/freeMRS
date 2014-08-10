@@ -21,10 +21,12 @@ public class PatientInfoInterface extends javax.swing.JPanel {
     Session session;
     Patient patient;
     Insurance insurance;
+    mainWindow main;
 
-    public PatientInfoInterface(Session session) {
+    public PatientInfoInterface(Session session,mainWindow main) {
         this.session = session;
         initComponents();
+        this.main=main;
 
     }
 
@@ -528,7 +530,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        DemographicInterface demographic = new DemographicInterface(session, this.patient);
+        DemographicInterface demographic = new DemographicInterface(session, this.patient,this.main);
         demographic.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 

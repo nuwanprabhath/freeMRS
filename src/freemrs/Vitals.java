@@ -134,7 +134,10 @@ public class Vitals  implements java.io.Serializable {
         this.patientId = patientId;
     }
 
-
+     @Override
+   public String toString(){
+        return dateTime.toString();
+    }
 
 
 }

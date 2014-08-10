@@ -166,9 +166,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
         jLabel12.setText("Total number of patients scheduled:");
         add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
-
-        jLabel13.setText("jLabel13");
-        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, -1, -1));
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 20, 10));
 
         jTable1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -301,16 +299,18 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
             } else if (start < end || (start == 12 && end == 13)) {
 
+                if (tablePosition == jTable1.getRowCount() - 1) {
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.addRow(new Object[]{null, null, null});
+                }
+                
                 jTable1.setValueAt(patient.getName(), ++tablePosition, 0);
                 jTable1.setValueAt(jTextField1.getText(), tablePosition, 1);
                 jTable1.setValueAt(picker.getEditor().getText(), tablePosition, 2);
                 jTable1.setValueAt(start + ".00", tablePosition, 3);
                 jTable1.setValueAt(end + ".00", tablePosition, 4);
 
-                if (tablePosition == jTable1.getRowCount() - 1) {
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    model.addRow(new Object[]{null, null, null});
-                }
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Please use valid time slot", "Schedule", JOptionPane.INFORMATION_MESSAGE);
             }

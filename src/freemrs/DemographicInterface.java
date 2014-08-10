@@ -29,9 +29,10 @@ public class DemographicInterface extends javax.swing.JFrame {
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     mainWindow main;
 
-    public DemographicInterface(Session session, Patient patient) {
+    public DemographicInterface(Session session, Patient patient,mainWindow main) {
         this.session = session;
         this.patient = patient;
+        this.main=main;
         initComponents();
         if (patient != null) {
             updateData();
@@ -356,7 +357,8 @@ public class DemographicInterface extends javax.swing.JFrame {
             public void run() {
                 Session s = null;
                 Patient p = null;
-                new DemographicInterface(s, p).setVisible(true);
+                mainWindow m =null;
+                new DemographicInterface(s, p,m).setVisible(true);
             }
         });
     }
