@@ -173,7 +173,7 @@ public class login extends javax.swing.JFrame {
             user = lst.get(0);
         }
 
-        boolean access = false;
+        boolean access = false; //TO check acess is granted or not
         if (user == null) {
             jTextField1.setText("");
             jPasswordField1.setText("");

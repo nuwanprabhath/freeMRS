@@ -7,6 +7,7 @@
 package freemrs;
 
 import java.util.List;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -67,6 +68,8 @@ public class PreviousVitalsInterface extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
 
+        setTitle("Patient Previous Vitals");
+        setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -159,9 +162,7 @@ public class PreviousVitalsInterface extends javax.swing.JFrame {
                                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(7, 7, 7)
-                                        .addComponent(jLabel4))))
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)

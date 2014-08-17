@@ -275,25 +275,28 @@ public class BillingInterface extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jTable1.setValueAt(jTextField1.getText(), ++tablePosition, 0);
         try{
             
         float value=Float.parseFloat(jTextField2.getText());
+        jTable1.setValueAt(jTextField1.getText(), ++tablePosition, 0);
         jTable1.setValueAt(value, tablePosition, 1);
         total+=value;
         jLabel8.setText(total+"");
         
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Enter valid value", "Billing", JOptionPane.WARNING_MESSAGE);
-        }
-        
-
         if (tablePosition == jTable1.getRowCount() - 1) {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.addRow(new Object[]{null, null, null});
         }
         jTextField1.setText("");
         jTextField2.setText("");
+        
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(this, "Enter valid value", "Billing", JOptionPane.WARNING_MESSAGE);
+        }
+        
+
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

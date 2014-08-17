@@ -111,6 +111,9 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
         jLabel6.setText("value");
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 39, -1, -1));
+
+        jSeparator2.setMinimumSize(new java.awt.Dimension(1060, 0));
+        jSeparator2.setPreferredSize(new java.awt.Dimension(1060, 2));
         add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 995, 10));
 
         jLabel7.setText("Select location:");
@@ -148,6 +151,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
         jButton1.setBackground(new java.awt.Color(153, 255, 153));
         jButton1.setText("Search schedule");
+        jButton1.setToolTipText("Search saved schedules");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -208,6 +212,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
         jButton3.setBackground(new java.awt.Color(153, 255, 153));
         jButton3.setText("Add entry");
+        jButton3.setToolTipText("Add schedule to table");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -217,6 +222,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
         jButton4.setBackground(new java.awt.Color(255, 204, 204));
         jButton4.setText("Remove entry");
+        jButton4.setToolTipText("Remove entry froom table");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);

@@ -74,6 +74,7 @@ public class InsuarenceInterface extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
+        setTitle("Patient Insuarence Information");
         setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
         setResizable(false);
 

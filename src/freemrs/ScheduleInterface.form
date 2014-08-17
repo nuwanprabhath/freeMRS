@@ -101,6 +101,14 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
+      <Properties>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[1060, 0]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[1060, 2]"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="60" width="995" height="10"/>
@@ -274,6 +282,7 @@
           <Color blue="99" green="ff" red="99" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Search schedule"/>
+        <Property name="toolTipText" type="java.lang.String" value="Search saved schedules"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -397,6 +406,7 @@
           <Color blue="99" green="ff" red="99" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Add entry"/>
+        <Property name="toolTipText" type="java.lang.String" value="Add schedule to table"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
@@ -413,6 +423,7 @@
           <Color blue="cc" green="cc" red="ff" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Remove entry"/>
+        <Property name="toolTipText" type="java.lang.String" value="Remove entry froom table"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
