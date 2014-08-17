@@ -177,7 +177,7 @@ public class login extends javax.swing.JFrame {
         if (user == null) {
             jTextField1.setText("");
             jPasswordField1.setText("");
-            JOptionPane.showMessageDialog(this, "User does not exist", "Login error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "User name or password incorrect", "Login error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
                 access = UserPasswordMatch.compareData(user, password);
@@ -189,6 +189,10 @@ public class login extends javax.swing.JFrame {
         if (access) {
             new mainWindow(session).setVisible(true);
             this.setVisible(false);
+        }else{
+            if (user != null) {
+                JOptionPane.showMessageDialog(this, "User name or password incorrect", "Login error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
