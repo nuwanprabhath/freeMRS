@@ -203,8 +203,11 @@ public class login extends javax.swing.JFrame {
         }
 
         if (access) {
-            new mainWindow(session).setVisible(true);
+            this.jTextField1.setText("");
+            this.jPasswordField1.setText("");
+            new mainWindow(this,session).setVisible(true);
             this.setVisible(false);
+            
         }else{
             if (user != null) {
                 JOptionPane.showMessageDialog(this, "User name or password incorrect", "Login error", JOptionPane.ERROR_MESSAGE);
@@ -215,7 +218,7 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        new PasswordResetInterface(session,jTextField1.getText()).setVisible(true);
+        new PasswordResetInterface(this,session,jTextField1.getText()).setVisible(true);
         
     }//GEN-LAST:event_jLabel4MouseClicked
 

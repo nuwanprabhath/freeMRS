@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -26,15 +27,18 @@ public class PasswordResetInterface extends javax.swing.JFrame {
     private Session session;
     private String username;
     private Userinfo user;
-    public PasswordResetInterface(Session session,String username) {
+    private login log;              //To desable login window
+    public PasswordResetInterface(login lg,Session session,String username) {
         this.username=username;
         this.session=session;
+        this.log = lg;
         
         initComponents();
         
         this.jPasswordField1.setEnabled(false);
         this.jPasswordField2.setEnabled(false);
         this.jButton2.setEnabled(false);
+        log.setEnabled(false);
         setScurityQuestion();
     }
     
@@ -75,7 +79,10 @@ public class PasswordResetInterface extends javax.swing.JFrame {
         jPasswordField2 = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        jButton3 = new javax.swing.JButton();
 
+        setDefaultCloseOperation(this.closeOperation()
+        );
         setTitle("Password Reset");
         setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
 
@@ -110,6 +117,13 @@ public class PasswordResetInterface extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Cancel");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -119,7 +133,7 @@ public class PasswordResetInterface extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,9 +144,11 @@ public class PasswordResetInterface extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1)))))
-                        .addContainerGap(30, Short.MAX_VALUE))
+                                        .addGap(81, 81, 81)
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton3)))))
+                        .addContainerGap(21, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -162,7 +178,8 @@ public class PasswordResetInterface extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -228,6 +245,8 @@ public class PasswordResetInterface extends javax.swing.JFrame {
                 session.getTransaction().commit();
                 JOptionPane.showMessageDialog(this, "Password reset successfully.\n Login using new password", "Password reset", JOptionPane.INFORMATION_MESSAGE);
                 this.setVisible(false);
+                log.setEnabled(true);
+               
             } catch (Exception ex) {
                 Logger.getLogger(MoreInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -237,6 +256,11 @@ public class PasswordResetInterface extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        log.setEnabled(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,7 +293,8 @@ public class PasswordResetInterface extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Session s= null;
-                new PasswordResetInterface(s,null).setVisible(true);
+                login l=null;
+                new PasswordResetInterface(l,s,null).setVisible(true);
             }
         });
     }
@@ -277,6 +302,7 @@ public class PasswordResetInterface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -290,4 +316,9 @@ public class PasswordResetInterface extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    private int closeOperation() {
+        
+        return JFrame.EXIT_ON_CLOSE;
+    }
 }
