@@ -39,4 +39,12 @@ public class UserPasswordMatch {
         else
             return false;
     }
+     
+     public static boolean compareQuestion(Userinfo user,String answer) throws Exception// returns true if username and password is a match
+    {
+        if(user.getAnswer().equals(getHash(answer)))
+            return true;
+        else
+            return false;
+    }
 }
