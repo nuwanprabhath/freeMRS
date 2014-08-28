@@ -28,11 +28,19 @@ public class VitalsInterface extends javax.swing.JPanel {
     GeneralMedicalInfo medical; //To store medical information
     PreviousVitalsInterface previous; //To show previous vitals
     boolean newPatient = false;
+    private Userinfo user;
 
-    public VitalsInterface(Session session) {
+    public VitalsInterface(Session session,Userinfo user) {
         this.session = session;
         initComponents();
-
+        this.user = user;
+        if(user.getType().equals("nurse")){     //Remove medical info interface to nurse
+            jButton3.setEnabled(false);
+            jTabbedPane1.remove(1);
+            jButton1.setEnabled(false);
+            jButton5.setEnabled(false);
+            jComboBox1.setEnabled(false);
+        }
     }
 
     public void updateInfo(Patient patient) {
@@ -60,8 +68,10 @@ public class VitalsInterface extends javax.swing.JPanel {
         session.getTransaction().commit();
 
         if (!result.isEmpty()) {
+            if(!user.getType().equals("nurse")){    //If the user is doctor enabling buttons
             jButton1.setEnabled(true);
             jButton5.setEnabled(true);
+            }
             medical = result.get(0);
 
             jTextField10.setText(medical.getMainMedicalProblem());

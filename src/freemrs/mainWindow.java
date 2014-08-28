@@ -36,16 +36,18 @@ public class mainWindow extends javax.swing.JFrame {
     BillingInterface billing;
     private login log;
     Patient currentPatient = null;  //To store the current searched patient
+    private Userinfo user;
 
-    public mainWindow(login log,Session session) {
+    public mainWindow(login log,Session session,Userinfo user) {
         this.session = session;
         this.log = log;
+        this.user = user;
         initComponents();
         
         patient = new PatientInfoInterface(this.session,this);
         welcome = new WelcomeInterface();
-        vitals = new VitalsInterface(this.session);
-        pres = new PrescriptionInterface(this.session);
+        vitals = new VitalsInterface(this.session,user);
+        pres = new PrescriptionInterface(this.session,user);
         schedule = new ScheduleInterface(this.session);
         billing = new BillingInterface(this.session);
                 
@@ -56,14 +58,9 @@ public class mainWindow extends javax.swing.JFrame {
         this.add(schedule);
         this.add(billing);
         
+        
         viewVoid();             //showing welcome screen
 
-//        UIManager UI = new UIManager();
-//        UI.put("OptionPane.background", Color.WHITE);
-//        UI.put("Panel.background", Color.WHITE);
-       // UI.put("OptionPane.messagebackground", Color.WHITE);
-       // UI.put("OptionPane.textbackground", Color.white);
-//        UI.put("Panel.background", Color.WHITE);
 
     }
 
@@ -99,6 +96,7 @@ public class mainWindow extends javax.swing.JFrame {
         setSize(new Dimension(1000, 700));
         welcome.setBounds(0, 224, 1060, 445);
         welcome.setVisible(true);
+        jLabel6.setText(user.getUsername()+":");
     }
 
     private void viewPresciptions() {
@@ -172,6 +170,7 @@ public class mainWindow extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FreeMRS");
@@ -274,6 +273,8 @@ public class mainWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("jLabel6");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -312,13 +313,17 @@ public class mainWindow extends javax.swing.JFrame {
                         .addGap(14, 14, 14))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addGap(2, 2, 2)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -433,7 +438,7 @@ public class mainWindow extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 
-            new MoreInterface(session, currentPatient).setVisible(true);
+            new MoreInterface(session, currentPatient,user).setVisible(true);
         
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -474,7 +479,7 @@ public class mainWindow extends javax.swing.JFrame {
             public void run() {
                 Session s = null;
                 login l = null;
-                new mainWindow(l,s).setVisible(true);
+                new mainWindow(l,s,null).setVisible(true);
 
             }
         });
@@ -493,6 +498,7 @@ public class mainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables

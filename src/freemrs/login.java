@@ -78,6 +78,11 @@ public class login extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(51, 51, 255));
         jLabel4.setText("Forgot your password?");
@@ -205,7 +210,7 @@ public class login extends javax.swing.JFrame {
         if (access) {
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
-            new mainWindow(this,session).setVisible(true);
+            new mainWindow(this,session,user).setVisible(true);
             this.setVisible(false);
             
         }else{
@@ -221,6 +226,11 @@ public class login extends javax.swing.JFrame {
         new PasswordResetInterface(this,session,jTextField1.getText()).setVisible(true);
         
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        System.exit(0);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

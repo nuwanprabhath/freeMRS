@@ -29,9 +29,18 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     Patient patient;
     GeneralMedicalInfo medical;     //To store medical info specially changed allergies
 
-    public PrescriptionInterface(Session session) {
+    public PrescriptionInterface(Session session,Userinfo user) {
         initComponents();
         this.session = session;
+        
+        if(user.getType().equals("nurse")){
+            jButton1.setVisible(false);
+            jButton2.setVisible(false);
+            jButton3.setVisible(false);
+            jTextArea1.setEditable(false);
+            jTextArea2.setEditable(false);
+        }
+            
     }
 
     public void updateInfo(Patient patient) {

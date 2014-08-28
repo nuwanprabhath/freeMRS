@@ -12,7 +12,7 @@ import java.util.*;
  *
  * @author Nuwan Prabhath
  */
-public class PatientInfoExport implements java.io.Serializable{  //use to serialize data of a patient
+public class PatientInfoExport implements java.io.Serializable{  //use to serialize data of a patient and transfer
     
     private Patient patient;
     private Insurance insuarenceInfo;

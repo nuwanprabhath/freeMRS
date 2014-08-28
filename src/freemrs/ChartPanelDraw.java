@@ -25,11 +25,11 @@ import org.jfree.data.time.Year;
 import org.jfree.data.xy.XYDataset;
 
 
-public class ChartPanelDraw {
+public class ChartPanelDraw {           //Used to draw graphs of various types of vitals
 
-    XYDataset dataset;
-    private final ChartPanel chartPanel ;
-    java.util.List<Vitals> result;
+    XYDataset dataset;                  //To store data to draw graph
+    private final ChartPanel chartPanel ;   
+    java.util.List<Vitals> result;          //To get data to store in data set
     String type;
 
     public ChartPanelDraw(java.util.List<Vitals> result, String type) {
@@ -38,19 +38,19 @@ public class ChartPanelDraw {
         dataset = createTimeDataset();
         chartPanel = createChart(dataset,type);
         
-        JFrame f = new JFrame("Vital Plot");
+        JFrame f = new JFrame("Vital Plot");            //Jframe to draw the graph
         f.setTitle("Vital Plot");
         f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         f.setLayout(new BorderLayout(0, 5));
         f.add(chartPanel, BorderLayout.CENTER);
         f.setIconImage(new ImageIcon(getClass().getResource("/images/icon_transparent.png")).getImage());
         
-        chartPanel.setHorizontalAxisTrace(true);
+        chartPanel.setHorizontalAxisTrace(true);        //set properties of the graph 
         chartPanel.setVerticalAxisTrace(true);
         chartPanel.setMouseWheelEnabled(true);
 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panel.add(createTrace());
+        panel.add(createTrace());                       //Add components to panel
         panel.add(createDate());
         panel.add(createZoom());
         f.add(panel, BorderLayout.SOUTH);
@@ -104,7 +104,7 @@ public class ChartPanelDraw {
         dataset.addSeries(s1);
         return dataset;
     }
-    private JComboBox createTrace() {
+    private JComboBox createTrace() {           //Create mouse trace
         final JComboBox trace = new JComboBox();
         final String[] traceCmds = {"Enable Trace", "Disable Trace"};
         trace.setModel(new DefaultComboBoxModel(traceCmds));
@@ -125,7 +125,7 @@ public class ChartPanelDraw {
         return trace;
     }
 
-    private JComboBox createDate() {
+    private JComboBox createDate() {        // to change the vertical and horizontal data
         final JComboBox date = new JComboBox();
         final String[] dateCmds = {"Horizontal Dates", "Vertical Dates"};
         date.setModel(new DefaultComboBoxModel(dateCmds));
@@ -146,7 +146,7 @@ public class ChartPanelDraw {
         return date;
     }
 
-    private JButton createZoom() {
+    private JButton createZoom() {          // To enable and desable zoom 
         final JButton auto = new JButton(new AbstractAction("Auto Zoom") {
 
             @Override
@@ -179,7 +179,7 @@ public class ChartPanelDraw {
         return new ChartPanel(chart);
     }
     
-    private String getValueAxis(){
+    private String getValueAxis(){          //Setting appropiate units for graph 
         if (type.equals("Weight")) {
 
             return "kg";

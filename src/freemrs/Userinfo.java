@@ -62,7 +62,10 @@ public class Userinfo  implements java.io.Serializable {
         this.answer = answer;
     }
 
-
+     @Override
+    public String toString(){
+        return this.username;
+    }
 
 
 }
