@@ -37,7 +37,8 @@ public class mainWindow extends javax.swing.JFrame {
     private login log;
     Patient currentPatient = null;  //To store the current searched patient
     private Userinfo user;
-
+    private MoreInterface moreInterface;    //To create only one more interface
+            
     public mainWindow(login log,Session session,Userinfo user) {
         this.session = session;
         this.log = log;
@@ -403,12 +404,14 @@ public class mainWindow extends javax.swing.JFrame {
             this.currentPatient = result.get(0);
 
             updateAllInterfaces();  //After searching new patient updating all interfaces
-            UIManager UI = new UIManager();
-       
             JOptionPane.showMessageDialog(this, ("Patient found"), "Search", JOptionPane.INFORMATION_MESSAGE);
-            System.out.println(currentPatient.getName());
+            
         } else if (result.size() > 1) {
-
+            new SelectPatientInterface(result,this).setVisible(true);
+            if(currentPatient!=null){
+                updateAllInterfaces();
+            }
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -437,9 +440,14 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
-            new MoreInterface(session, currentPatient,user).setVisible(true);
-        
+            if (this.moreInterface==null){
+                this.moreInterface = new MoreInterface(session, currentPatient,user);
+                this.moreInterface.setVisible(true);        
+            }
+            else{
+                this.moreInterface.setVisible(true);        
+                
+            }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked

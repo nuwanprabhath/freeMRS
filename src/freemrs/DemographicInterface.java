@@ -203,6 +203,7 @@ public class DemographicInterface extends javax.swing.JFrame {
         jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 110, -1));
 
         jTextField3.setText(" ");
+        jTextField3.setToolTipText("yyyy-mm-dd");
         jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 122, 110, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "male", "female" }));

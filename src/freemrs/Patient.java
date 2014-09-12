@@ -88,7 +88,10 @@ public class Patient  implements java.io.Serializable {
         this.phone = phone;
     }
 
-
+     @Override
+    public String toString(){
+        return this.name;
+    }
 
 
 }

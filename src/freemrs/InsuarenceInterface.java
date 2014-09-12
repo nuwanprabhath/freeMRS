@@ -113,6 +113,7 @@ public class InsuarenceInterface extends javax.swing.JFrame {
         jTextField3.setText(" ");
 
         jTextField4.setText(" ");
+        jTextField4.setToolTipText("yyyy-mm-dd");
 
         jTextField5.setText(" ");
 

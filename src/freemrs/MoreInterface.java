@@ -49,12 +49,11 @@ public class MoreInterface extends javax.swing.JFrame {
         this.currentUser = user;
 
         if (user.getType().equals("nurse")) {       //Removing reports and other things which are not allowed to nurse
-            
+
             jTabbedPane1.removeTabAt(0);
             jTabbedPane1.removeTabAt(0);
             jTabbedPane1.removeTabAt(1);
         }
-        
 
         picker1 = new JXDatePicker();            //Setting calender
         picker1.setDate(Calendar.getInstance().getTime());
@@ -79,23 +78,23 @@ public class MoreInterface extends javax.swing.JFrame {
         desableElements();
 
     }
-    
-    private void updateCombo(){
+    //Updating combo box
+    private void updateCombo() {
         session.beginTransaction();
         Query qr = session.createQuery("from Userinfo where username !=:code");
         qr.setParameter("code", currentUser.getUsername());
 
         List<Userinfo> result = qr.list();
         session.getTransaction().commit();
-        
+
         jComboBox1.removeAllItems();
-        for(Userinfo u :result){
+        for (Userinfo u : result) {
             jComboBox1.addItem(u);
         }
-        
+
     }
-    
-    private void desableElements(){
+
+    private void desableElements() {
         jPasswordField2.setEnabled(false);  //Desabeling password reset and security question until authentication complete
         jPasswordField3.setEnabled(false);
         jButton7.setEnabled(false);
@@ -169,8 +168,9 @@ public class MoreInterface extends javax.swing.JFrame {
         }
     }
 
-    private void serializeFile(String path) {
-
+    private void serializeFile(String path) {       //Use to serialize the file of patient
+        
+        if(currentPatient!=null){
         PatientInfoExport e = new PatientInfoExport(currentPatient, getInsuarenceInfo(), getMedicalInfo(), getPrescription(), getVitals());
 
         try {
@@ -183,6 +183,9 @@ public class MoreInterface extends javax.swing.JFrame {
         } catch (IOException i) {
             JOptionPane.showMessageDialog(null, i.getMessage(), "Export", JOptionPane.ERROR_MESSAGE);
             i.printStackTrace();
+        }
+        }else{
+            JOptionPane.showMessageDialog(null,  "Please search patient","Patient Info Export", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -997,9 +1000,12 @@ public class MoreInterface extends javax.swing.JFrame {
             jButton11.setEnabled(true);
             jButton9.setEnabled(true);
             jComboBox1.setEnabled(true);
+            
+            jTextField7.setText("");
+            jPasswordField5.setText("");
             updateCombo();                  //Updating the combo box to show all users
             
-            
+
         } else {
             if (user != null) {
                 JOptionPane.showMessageDialog(this, "User name or password incorrect", "Login error", JOptionPane.ERROR_MESSAGE);
@@ -1013,50 +1019,55 @@ public class MoreInterface extends javax.swing.JFrame {
         String password = new String(jPasswordField4.getPassword());
         String question = jTextField5.getText();
         String answer = jTextField6.getText();
-        
-        
-        if(username.isEmpty() || password.isEmpty() || question.isEmpty() || answer.isEmpty()){ //Check there are any empty fields
+
+        if (username.isEmpty() || password.isEmpty() || question.isEmpty() || answer.isEmpty()) { //Check there are any empty fields
             JOptionPane.showMessageDialog(this, "Complete all fields", "Empty fields", JOptionPane.ERROR_MESSAGE);
-        }else{
-            
-            session.beginTransaction();
-        Query qr = session.createQuery("from Userinfo where username=:code");
-        qr.setParameter("code", username);
+        } else {
 
-        List<Userinfo> lst = qr.list();
-        session.getTransaction().commit();
-        
-        if(lst.isEmpty()){
-
-            Userinfo current = new Userinfo();
-            current.setUsername(username);
-            current.setQuestion(question);
-            current.setType("nurse");
-            try {
-                current.setPasswordhash(UserPasswordMatch.getHash(password));
-                current.setAnswer(UserPasswordMatch.getHash(answer));
-            } catch (Exception ex) {
-                System.out.println("Error password conversion");
-            }
-            
             session.beginTransaction();
-            session.save(current);
+            Query qr = session.createQuery("from Userinfo where username=:code");
+            qr.setParameter("code", username);
+
+            List<Userinfo> lst = qr.list();
             session.getTransaction().commit();
-            JOptionPane.showMessageDialog(this, "User added sucessfully", "Add user", JOptionPane.INFORMATION_MESSAGE);
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "User name already exist", "User name error", JOptionPane.ERROR_MESSAGE);
+
+            if (lst.isEmpty()) {
+
+                Userinfo current = new Userinfo();
+                current.setUsername(username);
+                current.setQuestion(question);
+                current.setType("nurse");
+                try {
+                    current.setPasswordhash(UserPasswordMatch.getHash(password));
+                    current.setAnswer(UserPasswordMatch.getHash(answer));
+                } catch (Exception ex) {
+                    System.out.println("Error password conversion");
+                }
+
+                session.beginTransaction();
+                session.save(current);          //Saving object
+                session.getTransaction().commit();
+                JOptionPane.showMessageDialog(this, "User added sucessfully", "Add user", JOptionPane.INFORMATION_MESSAGE);
+                
+                jTextField4.setText("");
+                jPasswordField4.setText("");
+                jTextField5.setText("");
+                jTextField6.setText("");
+                updateCombo(); //Updating using new information
+            } else {
+                JOptionPane.showMessageDialog(this, "User name already exist", "User name error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
-            
-        }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-
+        session.beginTransaction();
+        session.delete(jComboBox1.getSelectedItem());
+        session.getTransaction().commit();
+        JOptionPane.showMessageDialog(this, "User removed sucessfully", "User Remove", JOptionPane.INFORMATION_MESSAGE);
         updateCombo();
     }//GEN-LAST:event_jButton9ActionPerformed
 
