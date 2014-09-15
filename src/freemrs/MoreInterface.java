@@ -41,6 +41,7 @@ public class MoreInterface extends javax.swing.JFrame {
     private Session session;
     private Patient currentPatient;
     private Userinfo currentUser;                               //To test who logged in    
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 
     public MoreInterface(Session session, Patient patient, Userinfo user) {
         initComponents();
@@ -78,6 +79,7 @@ public class MoreInterface extends javax.swing.JFrame {
         desableElements();
 
     }
+
     //Updating combo box
     private void updateCombo() {
         session.beginTransaction();
@@ -169,23 +171,23 @@ public class MoreInterface extends javax.swing.JFrame {
     }
 
     private void serializeFile(String path) {       //Use to serialize the file of patient
-        
-        if(currentPatient!=null){
-        PatientInfoExport e = new PatientInfoExport(currentPatient, getInsuarenceInfo(), getMedicalInfo(), getPrescription(), getVitals());
 
-        try {
-            FileOutputStream fileOut = new FileOutputStream(path + ".ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(e);
-            out.close();
-            fileOut.close();
-            JOptionPane.showMessageDialog(null, "Sucessfully saved patient " + currentPatient.getName(), "Export", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException i) {
-            JOptionPane.showMessageDialog(null, i.getMessage(), "Export", JOptionPane.ERROR_MESSAGE);
-            i.printStackTrace();
-        }
-        }else{
-            JOptionPane.showMessageDialog(null,  "Please search patient","Patient Info Export", JOptionPane.ERROR_MESSAGE);
+        if (currentPatient != null) {
+            PatientInfoExport e = new PatientInfoExport(currentPatient, getInsuarenceInfo(), getMedicalInfo(), getPrescription(), getVitals());
+
+            try {
+                FileOutputStream fileOut = new FileOutputStream(path + ".ser");
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(e);
+                out.close();
+                fileOut.close();
+                JOptionPane.showMessageDialog(null, "Sucessfully saved patient " + currentPatient.getName(), "Export", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException i) {
+                JOptionPane.showMessageDialog(null, i.getMessage(), "Export", JOptionPane.ERROR_MESSAGE);
+                i.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please search patient", "Patient Info Export", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -511,10 +513,10 @@ public class MoreInterface extends javax.swing.JFrame {
                                     .addComponent(jLabel14)
                                     .addComponent(jLabel15))
                                 .addGap(147, 147, 147)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton3))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -704,9 +706,6 @@ public class MoreInterface extends javax.swing.JFrame {
                         .addGap(5, 5, 5)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel27)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addComponent(jLabel34)
@@ -716,7 +715,7 @@ public class MoreInterface extends javax.swing.JFrame {
                                         .addComponent(jLabel35)
                                         .addGap(18, 18, 18)
                                         .addComponent(jPasswordField5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                                         .addComponent(jButton10))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -734,7 +733,9 @@ public class MoreInterface extends javax.swing.JFrame {
                                         .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(23, 23, 23))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel32)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel27)
+                                    .addComponent(jLabel32))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -758,7 +759,6 @@ public class MoreInterface extends javax.swing.JFrame {
                 .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
@@ -799,23 +799,57 @@ public class MoreInterface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String fileName = "src\\reports\\patientReport.jasper";
-        HashMap para = new HashMap();
-        para.put("start", "'" + picker3.getEditor().getText() + "'");
-        para.put("end", "'" + picker4.getEditor().getText() + "'");
-        ReportView rw = new ReportView(fileName, para);
-        rw.setVisible(true);
+        try {
+            String fileName = "src\\reports\\patientReport.jasper";
+
+            java.util.Date invoiceDate = formatDate.parse(picker3.getEditor().getText());
+            java.sql.Date dateStart = new java.sql.Date(invoiceDate.getTime());
+
+            java.util.Date invoiceDate1 = formatDate.parse(picker4.getEditor().getText());
+            java.sql.Date dateEnd = new java.sql.Date(invoiceDate1.getTime());
+
+            if (dateEnd.after(dateStart)) {               //Checking youser has input a valid time period
+
+                HashMap para = new HashMap();
+                para.put("start", "'" + picker3.getEditor().getText() + "'");
+                para.put("end", "'" + picker4.getEditor().getText() + "'");
+                ReportView rw = new ReportView(fileName, para);
+                rw.setVisible(true);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "End date should after start date", "More", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Please use valid date", "More", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String fileName = "src\\reports\\financialReport.jasper";
-        HashMap para = new HashMap();
-        para.put("start", "'" + picker1.getEditor().getText() + "'");
-        para.put("end", "'" + picker2.getEditor().getText() + "'");
-        ReportView rw = new ReportView(fileName, para);
-        rw.setVisible(true);
+         try {
+        java.util.Date invoiceDate = formatDate.parse(picker1.getEditor().getText());
+        java.sql.Date dateStart = new java.sql.Date(invoiceDate.getTime());
 
+        java.util.Date invoiceDate1 = formatDate.parse(picker2.getEditor().getText());
+        java.sql.Date dateEnd = new java.sql.Date(invoiceDate1.getTime());
+
+        if (dateEnd.after(dateStart)) {               //Checking youser has input a valid time period
+
+            HashMap para = new HashMap();
+            para.put("start", "'" + picker1.getEditor().getText() + "'");
+            para.put("end", "'" + picker2.getEditor().getText() + "'");
+            ReportView rw = new ReportView(fileName, para);
+            rw.setVisible(true);
+             } else {
+                JOptionPane.showMessageDialog(this, "End date should after start date", "More", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Please use valid date", "More", JOptionPane.INFORMATION_MESSAGE);
+        }
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1000,11 +1034,10 @@ public class MoreInterface extends javax.swing.JFrame {
             jButton11.setEnabled(true);
             jButton9.setEnabled(true);
             jComboBox1.setEnabled(true);
-            
+
             jTextField7.setText("");
             jPasswordField5.setText("");
             updateCombo();                  //Updating the combo box to show all users
-            
 
         } else {
             if (user != null) {
@@ -1048,7 +1081,7 @@ public class MoreInterface extends javax.swing.JFrame {
                 session.save(current);          //Saving object
                 session.getTransaction().commit();
                 JOptionPane.showMessageDialog(this, "User added sucessfully", "Add user", JOptionPane.INFORMATION_MESSAGE);
-                
+
                 jTextField4.setText("");
                 jPasswordField4.setText("");
                 jTextField5.setText("");

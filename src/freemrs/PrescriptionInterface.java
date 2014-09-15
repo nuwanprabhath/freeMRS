@@ -148,7 +148,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Medical issue:");
 
-        jLabel6.setText("High blood pressure");
+        jLabel6.setText(" ");
 
         jLabel7.setText("Select date:");
 
@@ -335,9 +335,9 @@ public class PrescriptionInterface extends javax.swing.JPanel {
                 Desktop.getDesktop().browse(new URI("http://www.pdr.net/search-results?q=" + drug));
 
             } catch (URISyntaxException ex) {
-                Logger.getLogger(PrescriptionInterface.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Enter drugname without spaces", "Search Drug", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
-                Logger.getLogger(PrescriptionInterface.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Internet connection error", "Search Drug", JOptionPane.INFORMATION_MESSAGE);
             }
         }
 

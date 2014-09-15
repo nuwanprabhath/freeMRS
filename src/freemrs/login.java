@@ -177,11 +177,14 @@ public class login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String username = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
-
+        try{
         SessionFactory sessionFactory = NewHibernateUtil.getSessionFactory(); //gets the hibernate sessionFactory created at the program start
         Session session = sessionFactory.openSession();
         this.session=session;
         session.beginTransaction();
+        }catch(Exception e){        //To catch connection errors
+            JOptionPane.showMessageDialog(this, "Problem connecting to database", "Connection eoore", JOptionPane.ERROR_MESSAGE);
+        }
         Query qr = session.createQuery("from Userinfo where username=:code");
         qr.setParameter("code", username);
 

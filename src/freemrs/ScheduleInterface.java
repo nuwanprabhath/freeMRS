@@ -260,11 +260,12 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
             } else if (start < end || (start == 12 && end == 13)) { //checking for clash
 
-                session.beginTransaction();
-                Query qr = session.createQuery("from Schedule where ((startTime<= :code1 and :code1 <=endTime) or (startTime<= :code2 and :code2 <=endTime)) and (location!=:code3)");
+                session.beginTransaction();                                     //code1= start code2 =end
+                Query qr = session.createQuery("from Schedule where ((startTime<= :code1 and :code1 <=endTime) or (startTime<= :code2 and :code2 <=endTime)) and (location!=:code3) and (date= :code4)");
                 qr.setParameter("code1", start);
                 qr.setParameter("code2", end);
                 qr.setParameter("code3", jTextField1.getText());
+                qr.setParameter("code4",sqlDate);
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
 
