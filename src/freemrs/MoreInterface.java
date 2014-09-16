@@ -227,7 +227,7 @@ public class MoreInterface extends javax.swing.JFrame {
 
     }
 
-    private void saveFileInfo(String path) {
+    private void saveFileInfo(String path) {        //To save file into database
 
         PatientInfoExport e1 = null;
         try {
@@ -251,9 +251,8 @@ public class MoreInterface extends javax.swing.JFrame {
             session.beginTransaction();
             session.save(p);
             session.getTransaction().commit();
-
+            JOptionPane.showMessageDialog(null, "Successfully imported data", "Import", JOptionPane.INFORMATION_MESSAGE);
             int id = this.getNewPatientID(p);        //Getting new patient id
-            System.out.println("NEW ID " + id);
 
             Insurance i = e1.getInsuarenceInfo();
             if (i != null) {
@@ -881,7 +880,6 @@ public class MoreInterface extends javax.swing.JFrame {
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();  //Get file path to save data
-            System.out.println(file.getAbsolutePath());
             this.saveFileInfo(file.getAbsolutePath());
 
         } else {

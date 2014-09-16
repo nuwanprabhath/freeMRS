@@ -53,7 +53,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
         this.jLabel37.setText(patient.getPhone());
     }
 
-    private void updateInsuarence() {
+    public void updateInsuarence() {        //It is required to update in insuarence interface when values are changed
 
         session.beginTransaction();
         Query qr = session.createQuery("from Insurance where patientId =:code");
@@ -62,7 +62,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
         session.getTransaction().commit();
 
         if (result.isEmpty()) {
-            this.jButton2.setEnabled(false);
+            //this.jButton2.setEnabled(false);
         } else {
             this.insurance = result.get(0);
             this.jLabel40.setText(insurance.getProvider());
@@ -535,7 +535,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        InsuarenceInterface insuarence = new InsuarenceInterface(session, this.insurance);
+        InsuarenceInterface insuarence = new InsuarenceInterface(session, this.insurance,this.patient,this);
         insuarence.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -25,15 +25,19 @@ public class InsuarenceInterface extends javax.swing.JFrame {
     Insurance insurance;
     boolean toggle = true;     //To toggle between edit mode
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+    private Patient patient;
+    private PatientInfoInterface main;    //To add insuarence information of a new pation.
 
-    public InsuarenceInterface(Session session, Insurance insurance) {
+    public InsuarenceInterface(Session session, Insurance insurance,Patient patient,PatientInfoInterface main) {
         this.session = session;
         this.insurance = insurance;
+        this.patient = patient;
+        this.main = main;
         initComponents();
         if (insurance != null) {
             updateData();
         }
-        showHideEdit(toggle);
+        showHideEdit(toggle);   //Show and hiding text fields 
         jButton1.setEnabled(toggle);
         //showHideEdit(false);
 
@@ -251,34 +255,49 @@ public class InsuarenceInterface extends javax.swing.JFrame {
             java.sql.Date sqlDate = null;
             java.util.Date invoiceDate = formatDate.parse(jTextField4.getText());
             sqlDate = new java.sql.Date(invoiceDate.getTime());
-            
-            insurance.setProvider(jTextField2.getText());
-            insurance.setPlanName(jTextField3.getText());
-            insurance.setEffectiveDate(sqlDate);
-            insurance.setPolicyNumber(jTextField5.getText());
-            
-            session.beginTransaction();
-            session.update(insurance);
-            session.getTransaction().commit();
-            
-            JOptionPane.showMessageDialog(null, "Update Successfull", "Update", JOptionPane.INFORMATION_MESSAGE);
-            
+            if (this.insurance != null) {
+                insurance.setProvider(jTextField2.getText());
+                insurance.setPlanName(jTextField3.getText());
+                insurance.setEffectiveDate(sqlDate);
+                insurance.setPolicyNumber(jTextField5.getText());
+
+                session.beginTransaction();
+                session.update(insurance);
+                session.getTransaction().commit();
+
+                JOptionPane.showMessageDialog(null, "Update Successfull", "Update", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                this.insurance = new Insurance();
+                insurance.setProvider(jTextField2.getText());
+                insurance.setPlanName(jTextField3.getText());
+                insurance.setEffectiveDate(sqlDate);
+                insurance.setPolicyNumber(jTextField5.getText());
+                insurance.setPatientId(this.patient.getPatientId());
+                session.beginTransaction();
+                session.save(insurance);
+                session.getTransaction().commit();
+                main.insurance=this.insurance;
+                main.updateInsuarence();
+                JOptionPane.showMessageDialog(null, "Update Successfull", "Update", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Please enter date in correct format(yyyy-MM-dd)", "ALERT", JOptionPane.WARNING_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
     private void showHideEdit(boolean b) {  //Showing and hiding edit data
         this.jTextField2.setVisible(b);
         this.jTextField3.setVisible(b);
         this.jTextField4.setVisible(b);
         this.jTextField5.setVisible(b);
-        
+
         jTextField2.setText(jLabel3.getText());
         jTextField3.setText(jLabel5.getText());
         jTextField4.setText(jLabel7.getText());
         jTextField5.setText(jLabel9.getText());
-    
+
     }
 
     /**
@@ -313,7 +332,7 @@ public class InsuarenceInterface extends javax.swing.JFrame {
             public void run() {
                 Session s = null;
                 Insurance p = null;
-                new InsuarenceInterface(s, p).setVisible(true);
+                new InsuarenceInterface(s, p,null,null).setVisible(true);
             }
         });
     }

@@ -52,6 +52,10 @@ public class DemographicInterface extends javax.swing.JFrame {
         if (patient != null) {
             clearData();
         }
+        if(newPatient){
+            jToggleButton1.setVisible(false); //If adding a patient remove edit button
+            jButton1.setText(" Add ");
+        }
         showHideEdit(toggle);
         jButton1.setEnabled(toggle);
     }

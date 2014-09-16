@@ -363,7 +363,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
             session.getTransaction().commit();
 
             JOptionPane.showMessageDialog(null, "Prescription saved successfully", "Prescriptions", JOptionPane.INFORMATION_MESSAGE);
-
+            this.updatePrescription();
         } else {
             JOptionPane.showMessageDialog(null, "Please enter drugs", "ALERT", JOptionPane.INFORMATION_MESSAGE);
         }
