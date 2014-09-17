@@ -94,7 +94,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
     private void updateVitals(){
         
         session.beginTransaction();
-        Query qr = session.createQuery("from Vitals where patientId =:code");
+        Query qr = session.createQuery("from Vitals where patientId =:code order by dateTime DESC");
         qr.setParameter("code", patient.getPatientId());
         List<Vitals> result = qr.list();
         session.getTransaction().commit();

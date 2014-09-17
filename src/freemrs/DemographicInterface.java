@@ -253,7 +253,7 @@ public class DemographicInterface extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
         );
 
         pack();
@@ -265,6 +265,7 @@ public class DemographicInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        
         if (toggle) {
             toggle = false;
             this.showHideEdit(toggle);
@@ -316,6 +317,7 @@ public class DemographicInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void showHideEdit(boolean b) {  //Showing and hiding edit data
+        System.out.println(b);
         jComboBox1.setVisible(b);
         jComboBox2.setVisible(b);
         jTextField2.setVisible(b);

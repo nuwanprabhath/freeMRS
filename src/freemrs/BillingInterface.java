@@ -123,7 +123,7 @@ public class BillingInterface extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -277,11 +277,11 @@ public class BillingInterface extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
             
-        float value=Float.parseFloat(jTextField2.getText());
+        double value=Double.parseDouble(jTextField2.getText());
         jTable1.setValueAt(jTextField1.getText(), ++tablePosition, 0);
-        jTable1.setValueAt(value, tablePosition, 1);
+        jTable1.setValueAt(String.format("%.2f", value), tablePosition, 1);
         total+=value;
-        jLabel8.setText(total+"");
+        jLabel8.setText(String.format("%.2f", total));
         
         if (tablePosition == jTable1.getRowCount() - 1) {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
