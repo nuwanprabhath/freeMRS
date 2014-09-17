@@ -25,7 +25,7 @@ public class PreviousVitalsInterface extends javax.swing.JFrame {
         updateCombo();
     }
     
-    private void updateCombo(){
+    private void updateCombo(){         //Updating combo box to show dates of vitals
         jComboBox1.removeAllItems();
         for(Vitals vital :result){
             jComboBox1.addItem(vital);
@@ -239,10 +239,10 @@ public class PreviousVitalsInterface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
-        Vitals vital = (Vitals)jComboBox1.getSelectedItem();
+        //Selecting from combo box
+        Vitals vital = (Vitals)jComboBox1.getSelectedItem();    //get selected item from combo box
         if(vital!=null){
-        jLabel14.setText(vital.getWeight()+"");
+        jLabel14.setText(vital.getWeight()+"");                 //Showing the vital info
         jLabel15.setText(vital.getHeight()+"");
         jLabel16.setText(vital.getBpSystolic()+"");
         jLabel17.setText(vital.getBpDiastolic()+"");

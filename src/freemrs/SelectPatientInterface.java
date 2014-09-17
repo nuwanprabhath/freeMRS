@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class SelectPatientInterface extends javax.swing.JFrame {
 
     /**
-     * Creates new form SelectPatientInterface
+     * Used to select patient if multiple patients found
      */
     List<Patient> result;
     private int tablePosition;
@@ -26,15 +26,15 @@ public class SelectPatientInterface extends javax.swing.JFrame {
         this.result=result;
         this.main = main;
         initComponents();
-        updateTable();
+        updateTable();                      //update table information  
     }
     
-    private void updateTable(){
+    private void updateTable(){             //Update jtable with data
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         dtm.setNumRows(0);
         this.tablePosition = -1;
         
-        for (Patient p : result) {
+        for (Patient p : result) {          //Iterate through results and add them to table
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.addRow(new Object[]{null, null, null});
             
@@ -158,10 +158,11 @@ public class SelectPatientInterface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //taking selected raw from the table and set that patient to main window
         int selectedRow = this.jTable1.getSelectedRow();
         Patient selected = (Patient) jTable1.getValueAt(selectedRow,0);
-        main.currentPatient = selected;
-        this.setVisible(false);
+        main.currentPatient = selected;     //set patient
+        this.setVisible(false);             //hide the window
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

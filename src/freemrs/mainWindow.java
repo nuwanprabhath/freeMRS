@@ -44,14 +44,14 @@ public class mainWindow extends javax.swing.JFrame {
         this.log = log;
         this.user = user;
         initComponents();
-        
+                                            //Instances of each seperate interface
         patient = new PatientInfoInterface(this.session,this);
         welcome = new WelcomeInterface();
         vitals = new VitalsInterface(this.session,user);
         pres = new PrescriptionInterface(this.session,user);
         schedule = new ScheduleInterface(this.session);
         billing = new BillingInterface(this.session);
-                
+                                            //add them to main jframe
         this.add(patient);
         this.add(welcome);
         this.add(vitals);
@@ -60,7 +60,7 @@ public class mainWindow extends javax.swing.JFrame {
         this.add(billing);
         
         
-        viewVoid();             //showing welcome screen
+        viewVoid();                         //showing welcome screen
 
 
     }
@@ -72,14 +72,13 @@ public class mainWindow extends javax.swing.JFrame {
         schedule.setVisible(false);
         billing.setVisible(false);
 
-        patient.setBounds(0, 224, 1060, 445);
-//        patient.setBounds(0, 224, 1027, 445);
+        patient.setBounds(0, 224, 1060, 445);   //Set size
         patient.setVisible(true);
         patient.updateInfo(currentPatient);
 
     }
 
-    private void viewVitals() {
+    private void viewVitals() {             //View vital info interface and hide others
         welcome.setVisible(false);
         patient.setVisible(false);
         pres.setVisible(false);
@@ -104,21 +103,20 @@ public class mainWindow extends javax.swing.JFrame {
         welcome.setVisible(true);
         jLabel6.setText(user.getUsername()+":");
     }
-
-    private void viewPresciptions() {
+    
+    private void viewPresciptions() {       //View prescription interface and hide others
         welcome.setVisible(false);
         patient.setVisible(false);
         vitals.setVisible(false);
         schedule.setVisible(false);
         billing.setVisible(false);
 
-//        pres.setBounds(0, 224, 995, 445);
         pres.setBounds(0, 224,1060, 445);
         pres.setVisible(true);
         pres.updateInfo(currentPatient);
     }
 
-    private void viewSchedule() {
+    private void viewSchedule() {       //View schedule interface and hide others
         welcome.setVisible(false);
         patient.setVisible(false);
         vitals.setVisible(false);
@@ -131,7 +129,7 @@ public class mainWindow extends javax.swing.JFrame {
 
     }
     
-    private void viewBilling(){
+    private void viewBilling(){             //View bill interface
         welcome.setVisible(false);
         patient.setVisible(false);
         vitals.setVisible(false);
@@ -145,7 +143,7 @@ public class mainWindow extends javax.swing.JFrame {
         
     }
 
-    void updateAllInterfaces() {
+    void updateAllInterfaces() {            //Update all information in all seperate interfaces
         vitals.updateInfo(currentPatient);
         patient.updateInfo(currentPatient);
         pres.updateInfo(currentPatient);
@@ -373,6 +371,7 @@ public class mainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Enable patient info interface if no patient found inform that 
         if (this.currentPatient != null) {
             viewPatientInfo();
         } else {
@@ -381,6 +380,7 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //Show vital interface
         if (this.currentPatient != null) {
             viewVitals();
         } else {
@@ -389,6 +389,7 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       //Show prescription interface 
         if (this.currentPatient != null) {
             viewPresciptions();
         } else {
@@ -397,13 +398,14 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Searching patient 
         session.beginTransaction();
         Query qr = session.createQuery("from Patient where name =:code");
         qr.setParameter("code", jTextField2.getText());
         List<Patient> result = qr.list();
         session.getTransaction().commit();
 
-        if (result.isEmpty()) {
+        if (result.isEmpty()) {         //Check patiens are found or not
             JOptionPane.showMessageDialog(null, "Patient does not exist", "No patient found", JOptionPane.INFORMATION_MESSAGE);
         } else if (result.size() == 1) {
             this.currentPatient = result.get(0);
@@ -411,7 +413,7 @@ public class mainWindow extends javax.swing.JFrame {
             updateAllInterfaces();  //After searching new patient updating all interfaces
             JOptionPane.showMessageDialog(this, ("Patient found"), "Search", JOptionPane.INFORMATION_MESSAGE);
             
-        } else if (result.size() > 1) {
+        } else if (result.size() > 1) { //If multiple patients found show search window to select one
             new SelectPatientInterface(result,this).setVisible(true);
             if(currentPatient!=null){
                 updateAllInterfaces();
@@ -421,6 +423,7 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //Adding new patient 
         this.currentPatient = new Patient();
 
         DemographicInterface demographic = new DemographicInterface(session, currentPatient, true, this);
@@ -428,6 +431,7 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        //Enabling schedule interface
         if (this.currentPatient != null) {
             viewSchedule();
         } else {
@@ -436,6 +440,7 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        //View bill interface
         if (this.currentPatient != null) {
             viewBilling();
         } else {
@@ -445,7 +450,8 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-            if (this.moreInterface==null){
+            //Enabling more interface
+            if (this.moreInterface==null){  //Check previously created a instance if not create new one
                 this.moreInterface = new MoreInterface(session, currentPatient,user,this);
                 this.moreInterface.setVisible(true);        
             }
@@ -457,6 +463,7 @@ public class mainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        //logout action
         this.setVisible(false);
         this.log.setVisible(true);
     }//GEN-LAST:event_jLabel5MouseClicked

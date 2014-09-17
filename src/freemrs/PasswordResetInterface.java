@@ -35,14 +35,14 @@ public class PasswordResetInterface extends javax.swing.JFrame {
         
         initComponents();
         
-        this.jPasswordField1.setEnabled(false);
+        this.jPasswordField1.setEnabled(false); //Desabling elements
         this.jPasswordField2.setEnabled(false);
         this.jButton2.setEnabled(false);
         log.setEnabled(false);
-        setScurityQuestion();
+        setScurityQuestion();                   //Setting security question
     }
     
-    private void setScurityQuestion(){
+    private void setScurityQuestion(){          //Set user security question
         session.beginTransaction();
         Query qr = session.createQuery("from Userinfo where username=:code");
         qr.setParameter("code", username);
@@ -213,14 +213,14 @@ public class PasswordResetInterface extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean access=false;
         try {
-             access= UserPasswordMatch.compareQuestion(user, jTextField1.getText());
+             access= UserPasswordMatch.compareQuestion(user, jTextField1.getText()); //Compair hash values
             
         } catch (Exception ex) {
             System.out.println("Error matchng");
          }
         
-        if(access){
-            this.jPasswordField1.setEnabled(access);
+        if(access){     //If access is granted enable the elements
+            this.jPasswordField1.setEnabled(access);    
             this.jPasswordField2.setEnabled(access);
             this.jButton2.setEnabled(access);
         }else{
@@ -231,16 +231,17 @@ public class PasswordResetInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Resetting password
         String pw1 = new String(jPasswordField1.getPassword());
         String pw2 = new String(jPasswordField2.getPassword());
 
-        if (pw1.equals(pw2)) {
+        if (pw1.equals(pw2)) { //compaire paswwords are equal
             session.beginTransaction();
             Query qr = session.createQuery("from Userinfo where username=:code");
             qr.setParameter("code", username);
             Userinfo user = (Userinfo) qr.list().get(0);
             try {
-                user.setPasswordhash(UserPasswordMatch.getHash(pw2));
+                user.setPasswordhash(UserPasswordMatch.getHash(pw2));  //Get hash value
                 session.update(user);
                 session.getTransaction().commit();
                 JOptionPane.showMessageDialog(this, "Password reset successfully.\n Login using new password", "Password reset", JOptionPane.INFORMATION_MESSAGE);

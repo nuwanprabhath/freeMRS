@@ -11,7 +11,7 @@ package freemrs;
 public class WelcomeInterface extends javax.swing.JPanel {
 
     /**
-     * Creates new form WelcomeInterface
+     * Welcome screen after login or no patient is searched
      */
     public WelcomeInterface() {
         initComponents();

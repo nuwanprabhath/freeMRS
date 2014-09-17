@@ -32,9 +32,9 @@ public class ScheduleInterface extends javax.swing.JPanel {
      */
     Session session;
     Patient patient;
-    JXDatePicker picker;
-    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-    private int tablePosition = -1;
+    JXDatePicker picker;                //Calander object
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");   //To test the date format
+    private int tablePosition = -1;     //To track the table position
 
     public ScheduleInterface(Session session) {
         initComponents();
@@ -46,7 +46,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
         picker.setFormats(new SimpleDateFormat("yyyy-MM-dd"));
         add(picker, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, -1, -1));
 
-        updateComobo();
+        updateComobo();             //Updating combo box to get locations currently available
 
     }
 
@@ -235,6 +235,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        //Set location of the text area equal to selected location from combo box
         String sch = (String) jComboBox1.getSelectedItem();
         if (sch != null) {
             this.jTextField1.setText(sch);
@@ -243,21 +244,22 @@ public class ScheduleInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Add schedule to database
         Schedule sch = new Schedule();
         try {
             java.sql.Date sqlDate = null;
-            java.util.Date invoiceDate = formatDate.parse(picker.getEditor().getText());
+            java.util.Date invoiceDate = formatDate.parse(picker.getEditor().getText()); //get date from clander object
             sqlDate = new java.sql.Date(invoiceDate.getTime());
 
             sch.setDate(sqlDate);
             sch.setLocation(jTextField1.getText());
-            int start = Integer.parseInt(jComboBox2.getSelectedItem().toString());
+            int start = Integer.parseInt(jComboBox2.getSelectedItem().toString());      //get start and end time slots
             int end = Integer.parseInt(jComboBox3.getSelectedItem().toString());
-            sch.setStartTime(start);
+            sch.setStartTime(start);                //Set start and end time to schedule object
             sch.setEndTime(end);
             sch.setPatientId(patient.getPatientId());
 
-            java.util.Date date = new java.util.Date();
+            java.util.Date date = new java.util.Date(); //Check the scheduling date is after today
             if (date.after(sqlDate)) {
                 JOptionPane.showMessageDialog(this, "Please use valid date", "Schedule", JOptionPane.INFORMATION_MESSAGE);
 
@@ -274,11 +276,12 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
                 if (result.isEmpty()) {
                     session.beginTransaction();
-                    session.save(sch);
+                    session.save(sch);                                  //Saving object 
                     session.getTransaction().commit();
                     JOptionPane.showMessageDialog(null, "Schedule saved successfully", "Schedules", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
+                    //Error message to overlap time clash in two location same time problem
                     JOptionPane.showMessageDialog(null, "Time clash", "Schedules", JOptionPane.WARNING_MESSAGE);
                 }
 
@@ -295,21 +298,22 @@ public class ScheduleInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //Add schedule to table
         try {
             java.sql.Date sqlDate = null;
-            java.util.Date invoiceDate = formatDate.parse(picker.getEditor().getText());
+            java.util.Date invoiceDate = formatDate.parse(picker.getEditor().getText()); //geting date from 
             sqlDate = new java.sql.Date(invoiceDate.getTime());
 
-            int start = Integer.parseInt(jComboBox2.getSelectedItem().toString());
+            int start = Integer.parseInt(jComboBox2.getSelectedItem().toString());  //get start and end time
             int end = Integer.parseInt(jComboBox3.getSelectedItem().toString());
 
             java.util.Date date = new java.util.Date();
-            if (date.after(sqlDate)) {
+            if (date.after(sqlDate)) {                      //Checking date is after
                 JOptionPane.showMessageDialog(this, "Please use valid date", "Schedule", JOptionPane.INFORMATION_MESSAGE);
 
             } else if (start < end || (start == 12 && end == 13)) {
 
-                if (tablePosition == jTable1.getRowCount() - 1) {
+                if (tablePosition == jTable1.getRowCount() - 1) {   //If rows are finished. Create new one
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                     model.addRow(new Object[]{null, null, null});
                 }
@@ -324,10 +328,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please use valid time slot", "Schedule", JOptionPane.INFORMATION_MESSAGE);
             }
 
-//        } catch (Exception e) {
-//            System.out.println("Error" + e.getMessage());
-//            JOptionPane.showMessageDialog(this, "Enter date in correct format", "Schedule", JOptionPane.INFORMATION_MESSAGE);
-//        }
+
         } catch (ParseException ex) {
             Logger.getLogger(ScheduleInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -336,6 +337,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        //Removing item from table
         int selectedRow = this.jTable1.getSelectedRow();
         try {
             Schedule selected = (Schedule) jTable1.getValueAt(selectedRow, 1);
@@ -348,10 +350,10 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 session.delete(selected);
                 session.getTransaction().commit();
 
-                this.tablePosition--;
+                this.tablePosition--;           //Reduce table position from one
                 DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
                 int[] rows = jTable1.getSelectedRows();
-                for (int i = 0; i < rows.length; i++) {
+                for (int i = 0; i < rows.length; i++) { //remove rows
                     model.removeRow(rows[i] - i);
                 }
             }
@@ -369,17 +371,18 @@ public class ScheduleInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Searching schedules
         try {
             boolean location = jCheckBox2.isSelected(); //Checking for location and time search
             boolean time = jCheckBox1.isSelected();
 
             java.sql.Date sqlDate = null;
-            java.util.Date invoiceDate = formatDate.parse(picker.getEditor().getText());
+            java.util.Date invoiceDate = formatDate.parse(picker.getEditor().getText()); //get selected date
             sqlDate = new java.sql.Date(invoiceDate.getTime());
 
             session.beginTransaction();
 
-            if (location && time) {
+            if (location && time) {  //Compare with check boxes and do required action
                 Query qr = session.createQuery("from Schedule where date=:code1 and startTime=:code2 and endTime=:code3 and location=:code4");
                 qr.setParameter("code1", sqlDate);
                 qr.setParameter("code4", jTextField1.getText());
@@ -478,14 +481,14 @@ public class ScheduleInterface extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    void updateInfo(Patient currentPatient) {
+    void updateInfo(Patient currentPatient) {       //Update all sub types of interfaces
         this.patient = currentPatient;
         updateDemographic();
         updateMedicalInfo();
         updateComobo();
     }
 
-    private void updateDemographic() {
+    private void updateDemographic() {              //Update dempgraphic information in interface
         jLabel2.setText(patient.getName());
         Calendar today = Calendar.getInstance();
         Calendar birthDate = Calendar.getInstance();
@@ -507,7 +510,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
         }
     }
 
-    private void updateComobo() {
+    private void updateComobo() {   //Add locations to the combo box
         jComboBox1.removeAllItems();
 
         session.beginTransaction();

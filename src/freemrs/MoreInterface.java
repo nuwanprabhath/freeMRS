@@ -257,7 +257,7 @@ public class MoreInterface extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Successfully imported data", "Import", JOptionPane.INFORMATION_MESSAGE);
             int id = this.getNewPatientID(p);        //Getting new patient id
 
-            Insurance i = e1.getInsuarenceInfo();
+            Insurance i = e1.getInsuarenceInfo();   //Checking each type is null or not and if not null save them.
             if (i != null) {
                 i.setPatientId(id);
                 session.beginTransaction();
@@ -953,7 +953,7 @@ public class MoreInterface extends javax.swing.JFrame {
 
             if (dateEnd.after(dateStart)) {               //Checking youser has input a valid time period
 
-                HashMap para = new HashMap();
+                HashMap para = new HashMap();              //To pass parameter to XML file
                 para.put("start", "'" + picker3.getEditor().getText() + "'");
                 para.put("end", "'" + picker4.getEditor().getText() + "'");
                 ReportView rw = new ReportView(fileName, para);
@@ -1011,7 +1011,7 @@ public class MoreInterface extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
-            Desktop.getDesktop().mail();
+            Desktop.getDesktop().mail();    //Openning default mail client
         } catch (IOException ex) {
             Logger.getLogger(MoreInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1033,12 +1033,12 @@ public class MoreInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-
+        //Authorizing to change settings
         String username = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
 
         session.beginTransaction();
-        Query qr = session.createQuery("from Userinfo where username=:code");
+        Query qr = session.createQuery("from Userinfo where username=:code"); //Access database to check user name
         qr.setParameter("code", username);
 
         List<Userinfo> lst = qr.list();
@@ -1066,7 +1066,7 @@ public class MoreInterface extends javax.swing.JFrame {
             }
         }
 
-        if (access) {
+        if (access) {       //If acccess is granted enable items
             jPasswordField2.setEnabled(true);
             jPasswordField3.setEnabled(true);
             jButton7.setEnabled(true);
@@ -1087,17 +1087,18 @@ public class MoreInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        //Chaning password
         String pw1 = new String(jPasswordField2.getPassword());
         String pw2 = new String(jPasswordField3.getPassword());
 
-        if (pw1.equals(pw2)) {
+        if (pw1.equals(pw2)) {                                  // Check passwords are equal
             session.beginTransaction();
             Query qr = session.createQuery("from Userinfo where username=:code");
             qr.setParameter("code", jTextField1.getText());
             Userinfo user = (Userinfo) qr.list().get(0);
             try {
-                user.setPasswordhash(UserPasswordMatch.getHash(pw2));
-                session.update(user);
+                user.setPasswordhash(UserPasswordMatch.getHash(pw2));//get hash value of the password
+                session.update(user);                                //Update information 
                 session.getTransaction().commit();
                 JOptionPane.showMessageDialog(this, "Password changed successfully", "Password change", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
@@ -1109,7 +1110,7 @@ public class MoreInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
+        //Updating wecurity question
         session.beginTransaction();
         Query qr = session.createQuery("from Userinfo where username=:code");
         qr.setParameter("code", jTextField1.getText());
@@ -1118,10 +1119,10 @@ public class MoreInterface extends javax.swing.JFrame {
         String question = jTextField2.getText();
         String answer = jTextField3.getText();
 
-        if (question.isEmpty() == false || answer.isEmpty() == false) {
+        if (question.isEmpty() == false || answer.isEmpty() == false) {//Check fields are empty
             user.setQuestion(question);
             try {
-                user.setAnswer(UserPasswordMatch.getHash(answer));
+                user.setAnswer(UserPasswordMatch.getHash(answer));      //Calculate hash value of answer
                 session.update(user);
                 session.getTransaction().commit();
                 JOptionPane.showMessageDialog(this, "Security question changed successfully", "Security question change", JOptionPane.INFORMATION_MESSAGE);
@@ -1247,7 +1248,7 @@ public class MoreInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-
+        //patient remove authorizing
         String username = jTextField8.getText();
         String password = new String(jPasswordField6.getPassword());
 
@@ -1299,16 +1300,17 @@ public class MoreInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        int result = -1;
-        result = JOptionPane.showConfirmDialog(this, "You are going to completely remove this patient.\nYou cannot undoone unless you have exported data.", "Schedule", JOptionPane.OK_CANCEL_OPTION);
-        if (result == 0) {
+        //Deleting patient 
+        int result = -1;    //to get the value of cancel and ok buttons
+        result = JOptionPane.showConfirmDialog(this, "You are going to completely remove this patient.\nYou cannot undone unless you have exported data.", "Schedule", JOptionPane.OK_CANCEL_OPTION);
+        if (result == 0) {  //if ok is pressed
             session.beginTransaction();
             session.delete(this.currentPatient);
             session.getTransaction().commit();
             JOptionPane.showMessageDialog(this, "Patient removed sucessfully", "Patient Remove", JOptionPane.INFORMATION_MESSAGE);
-            main.currentPatient = null;
-            this.currentPatient=null;
-            main.viewVoid();
+            main.currentPatient = null; //Set main window patient to null
+            this.currentPatient=null;   //set current patint null in this window
+            main.viewVoid();            //View welcome screen in main window
         }
 
     }//GEN-LAST:event_jButton13ActionPerformed

@@ -175,6 +175,7 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Login button 
         String username = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
         try{
@@ -204,19 +205,19 @@ public class login extends javax.swing.JFrame {
             jLabel4.setVisible(true);
         } else {
             try {
-                access = UserPasswordMatch.compareData(user, password);
+                access = UserPasswordMatch.compareData(user, password);  //Comrare password hash 
             } catch (Exception ex) {
                 System.out.println("Error");
             }
         }
 
-        if (access) {
+        if (access) {                       //If mateched access is granted and show main window
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
             new mainWindow(this,session,user).setVisible(true);
             this.setVisible(false);
             
-        }else{
+        }else{                          //If access is not granted show error message
             if (user != null) {
                 JOptionPane.showMessageDialog(this, "User name or password incorrect", "Login error", JOptionPane.ERROR_MESSAGE);
                 jLabel4.setVisible(true);

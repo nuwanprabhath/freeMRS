@@ -24,9 +24,9 @@ public class DemographicInterface extends javax.swing.JFrame {
      */
     Session session;
     Patient patient;
-    boolean toggle = false;     //To toggle between edit mode
-    boolean newPatient = false;
-    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+    boolean toggle = false;                 //To toggle between edit mode
+    boolean newPatient = false;             //Same interface is used to add new patient. Check this is new patient or not
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd"); //To check the format of entered date
     mainWindow main;
 
     public DemographicInterface(Session session, Patient patient,mainWindow main) {
@@ -34,10 +34,10 @@ public class DemographicInterface extends javax.swing.JFrame {
         this.patient = patient;
         this.main=main;
         initComponents();
-        if (patient != null) {
+        if (patient != null) {      //If not a new patient update the data
             updateData();
         }
-        showHideEdit(toggle);
+        showHideEdit(toggle);       //Initially hiding editing 
         jButton1.setEnabled(toggle);
     }
 
@@ -49,12 +49,12 @@ public class DemographicInterface extends javax.swing.JFrame {
         this.main=main;
         
         initComponents();
-        if (patient != null) {
+        if (patient != null) {  //If not a new patient update the data
             clearData();
         }
         if(newPatient){
-            jToggleButton1.setVisible(false); //If adding a patient remove edit button
-            jButton1.setText(" Add ");
+            jToggleButton1.setVisible(false);   //If adding a patient remove edit button
+            jButton1.setText(" Add ");          //If new patient is adding change name of updat into add
         }
         showHideEdit(toggle);
         jButton1.setEnabled(toggle);
@@ -65,7 +65,7 @@ public class DemographicInterface extends javax.swing.JFrame {
         return super.preferredSize(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void updateData() {
+    private void updateData() {             //Updating demographic information of the patient
         this.jLabel3.setText(patient.getPatientId() + "");
         this.jLabel5.setText(patient.getName());
         this.jLabel7.setText(patient.getBirthday().toString());
@@ -76,7 +76,7 @@ public class DemographicInterface extends javax.swing.JFrame {
         this.jTextArea1.setText(patient.getAddress());
     }
 
-    private void clearData() {
+    private void clearData() {      //Remove the data
 
         this.jLabel3.setText("");
         this.jLabel5.setText("");
@@ -265,7 +265,7 @@ public class DemographicInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        
+        //To get toggeling action change the variable
         if (toggle) {
             toggle = false;
             this.showHideEdit(toggle);
@@ -287,10 +287,10 @@ public class DemographicInterface extends javax.swing.JFrame {
         try {
 
             java.sql.Date sqlDate = null;
-            java.util.Date invoiceDate = formatDate.parse(jTextField3.getText());
+            java.util.Date invoiceDate = formatDate.parse(jTextField3.getText());   //Checking the date format
             sqlDate = new java.sql.Date(invoiceDate.getTime());
 
-            patient.setName(jTextField2.getText());
+            patient.setName(jTextField2.getText());                   // Setting data object 
             patient.setBirthday(sqlDate);
             patient.setSex(jComboBox1.getSelectedItem().toString());
             patient.setMaritalStatus(jComboBox2.getSelectedItem().toString());
@@ -299,7 +299,7 @@ public class DemographicInterface extends javax.swing.JFrame {
             patient.setAddress(jTextArea1.getText());
 
             session.beginTransaction();
-            if (newPatient) {
+            if (newPatient) {               //If this is a new patient save if old patient update
                 session.save(patient);
                 main.currentPatient=patient;
             } else {

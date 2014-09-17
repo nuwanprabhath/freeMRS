@@ -24,21 +24,21 @@ public class BillingInterface extends javax.swing.JPanel {
      */
     Patient patient;
     Session session;
-    private int tablePosition = -1;
-    private float total=0;
+    private int tablePosition = -1;     //To track the table position in the table
+    private float total=0;              //To store the total value of the bill
     public BillingInterface(Session session) {
         this.session = session;
 
         initComponents();
     }
 
-    void updateInfo(Patient currentPatient) {
+    void updateInfo(Patient currentPatient) {   //Updating basic informaation
         this.patient = currentPatient;
         updateDemographic();
         updateMedicalInfo();
     }
 
-    private void updateDemographic() {
+    private void updateDemographic() {          //Update demographic information
         jLabel2.setText(patient.getName());
         Calendar today = Calendar.getInstance();
         Calendar birthDate = Calendar.getInstance();
@@ -277,13 +277,13 @@ public class BillingInterface extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
             
-        double value=Double.parseDouble(jTextField2.getText());
-        jTable1.setValueAt(jTextField1.getText(), ++tablePosition, 0);
-        jTable1.setValueAt(String.format("%.2f", value), tablePosition, 1);
+        double value=Double.parseDouble(jTextField2.getText());             //Converting entered value to fouble
+        jTable1.setValueAt(jTextField1.getText(), ++tablePosition, 0);      //Adding name to table
+        jTable1.setValueAt(String.format("%.2f", value), tablePosition, 1); //Adding value to table
         total+=value;
-        jLabel8.setText(String.format("%.2f", total));
+        jLabel8.setText(String.format("%.2f", total));                      //Setting total value
         
-        if (tablePosition == jTable1.getRowCount() - 1) {
+        if (tablePosition == jTable1.getRowCount() - 1) {                   //If rows are empty add new one
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.addRow(new Object[]{null, null, null});
         }
@@ -301,10 +301,10 @@ public class BillingInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.tablePosition--;
+        this.tablePosition--;                   //Decrese table position
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         int[] rows = jTable1.getSelectedRows();
-        for (int i = 0; i < rows.length; i++) {
+        for (int i = 0; i < rows.length; i++) {     // removing rows from given location
             this.total-=Float.parseFloat(model.getValueAt(rows[i] - i, 1).toString());
             model.removeRow(rows[i] - i);
             this.jLabel8.setText(total+"");

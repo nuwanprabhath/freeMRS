@@ -34,12 +34,12 @@ public class InsuarenceInterface extends javax.swing.JFrame {
         this.patient = patient;
         this.main = main;
         initComponents();
-        if (insurance != null) {
+        if (insurance != null) {    //Check if the patient has previous insuarence info. if have update them
             updateData();
         }
         showHideEdit(toggle);   //Show and hiding text fields 
         jButton1.setEnabled(toggle);
-        //showHideEdit(false);
+        
 
     }
 
@@ -237,7 +237,7 @@ public class InsuarenceInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        
+        //To get the toggling action
         if (toggle) {
             toggle = false;
             this.showHideEdit(toggle);
@@ -253,20 +253,20 @@ public class InsuarenceInterface extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             java.sql.Date sqlDate = null;
-            java.util.Date invoiceDate = formatDate.parse(jTextField4.getText());
+            java.util.Date invoiceDate = formatDate.parse(jTextField4.getText()); //To check the correct format of the date
             sqlDate = new java.sql.Date(invoiceDate.getTime());
-            if (this.insurance != null) {
-                insurance.setProvider(jTextField2.getText());
+            if (this.insurance != null) {                       //This means old patient
+                insurance.setProvider(jTextField2.getText());   //Setting new data to object 
                 insurance.setPlanName(jTextField3.getText());
                 insurance.setEffectiveDate(sqlDate);
                 insurance.setPolicyNumber(jTextField5.getText());
 
                 session.beginTransaction();
-                session.update(insurance);
+                session.update(insurance);                  //Update
                 session.getTransaction().commit();
 
                 JOptionPane.showMessageDialog(null, "Update Successfull", "Update", JOptionPane.INFORMATION_MESSAGE);
-            } else {
+            } else {                                //This means new patient and create new object
                 this.insurance = new Insurance();
                 insurance.setProvider(jTextField2.getText());
                 insurance.setPlanName(jTextField3.getText());
@@ -274,7 +274,7 @@ public class InsuarenceInterface extends javax.swing.JFrame {
                 insurance.setPolicyNumber(jTextField5.getText());
                 insurance.setPatientId(this.patient.getPatientId());
                 session.beginTransaction();
-                session.save(insurance);
+                session.save(insurance);            //Then save the instance. Not update like before
                 session.getTransaction().commit();
                 main.insurance=this.insurance;
                 main.updateInsuarence();

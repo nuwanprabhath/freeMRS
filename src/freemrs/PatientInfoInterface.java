@@ -30,7 +30,7 @@ public class PatientInfoInterface extends javax.swing.JPanel {
 
     }
 
-    public void updateInfo(Patient patient) {
+    public void updateInfo(Patient patient) {       //This will update the all other sub types of data 
         this.patient = patient;
         updateDemographic();
         updateInsuarence();
@@ -38,11 +38,11 @@ public class PatientInfoInterface extends javax.swing.JPanel {
         updateVitals();
     }
 
-    private void updateDemographic() {
-        Calendar today = Calendar.getInstance();
+    private void updateDemographic() {              //Update demographic information 
+        Calendar today = Calendar.getInstance();    //To get age
         Calendar birthDate = Calendar.getInstance();
         birthDate.setTime(patient.getBirthday());
-        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);  //Calculate age
         this.jLabel13.setText(age+"");
         this.jLabel1.setText(patient.getName());
         
@@ -93,13 +93,13 @@ public class PatientInfoInterface extends javax.swing.JPanel {
     
     private void updateVitals(){
         
-        session.beginTransaction();
+        session.beginTransaction(); 
         Query qr = session.createQuery("from Vitals where patientId =:code order by dateTime DESC");
         qr.setParameter("code", patient.getPatientId());
         List<Vitals> result = qr.list();
         session.getTransaction().commit();
         
-        if(!result.isEmpty()){
+        if(!result.isEmpty()){  //Check there are previous vitals are available
             Vitals vitals = result.get(0);
             
             jLabel3.setText(vitals.getDateTime().toString());

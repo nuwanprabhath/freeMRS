@@ -33,7 +33,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         initComponents();
         this.session = session;
         
-        if(user.getType().equals("nurse")){
+        if(user.getType().equals("nurse")){ //If the user is nurse remove unecessary information
             jButton1.setVisible(false);
             jButton2.setVisible(false);
             jButton3.setVisible(false);
@@ -43,7 +43,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
             
     }
 
-    public void updateInfo(Patient patient) {
+    public void updateInfo(Patient patient) {   //Update each sub type of data
         this.patient = patient;
         updateMedicalInfo();
         updateDemographic();
@@ -74,7 +74,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
         Calendar today = Calendar.getInstance();
         Calendar birthDate = Calendar.getInstance();
         birthDate.setTime(patient.getBirthday());
-        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR); //Calculate age
         this.jLabel4.setText(age + "");
         this.jLabel2.setText(patient.getName());
     }
@@ -313,6 +313,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        //Showing prescription according to selection
         Prescription pres = (Prescription) jComboBox1.getSelectedItem();
         if (pres != null) {
             jTextArea2.setText(pres.getNotes());
@@ -322,17 +323,17 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        //Online drug search
         String drug;
-        if (jTextField2.getText().charAt(0) == ' ') {
-            drug = jTextField2.getText().substring(1).replaceAll(" ", "%");
+        if (jTextField2.getText().charAt(0) == ' ') {   //Searching drug online
+            drug = jTextField2.getText().substring(1).replaceAll(" ", "%");//Remove spaces
         } else {
             drug = this.jTextField2.getText().replaceAll(" ", "%");
         }
 
-        if (Desktop.isDesktopSupported()) {
+        if (Desktop.isDesktopSupported()) { //Check it is supported by OS
             try {
-                Desktop.getDesktop().browse(new URI("http://www.pdr.net/search-results?q=" + drug));
+                Desktop.getDesktop().browse(new URI("http://www.pdr.net/search-results?q=" + drug)); //Access to URL
 
             } catch (URISyntaxException ex) {
                 JOptionPane.showMessageDialog(null, "Enter drugname without spaces", "Search Drug", JOptionPane.INFORMATION_MESSAGE);
@@ -344,15 +345,17 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //Adding new prescription 
         jTextArea2.setText("");
         jTextArea2.setEditable(true);
         jButton2.setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Saving the prescription
         Prescription current = new Prescription();
 
-        if (!jTextArea2.equals("")) {
+        if (!jTextArea2.equals("")) { //Check prescriptions are empty 
             java.util.Date date = new java.util.Date();
             current.setNotes(jTextArea2.getText());
             current.setDateTime(date);
@@ -371,6 +374,7 @@ public class PrescriptionInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        //Saving allergies
         medical.setAllergies(jTextArea1.getText());
         session.beginTransaction();
         session.update(medical);

@@ -43,18 +43,18 @@ public class VitalsInterface extends javax.swing.JPanel {
         }
     }
 
-    public void updateInfo(Patient patient) {
+    public void updateInfo(Patient patient) {       //Update all sub type information
         this.patient = patient;
         updateDemographic();
         updateMedicalInfo();
         updateVitals();
     }
 
-    private void updateDemographic() {
+    private void updateDemographic() {          //Updating demographic data of thepatient
         Calendar today = Calendar.getInstance();
         Calendar birthDate = Calendar.getInstance();
         birthDate.setTime(patient.getBirthday());
-        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        int age = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);  //Calculating age
         this.jLabel3.setText(age + "");
         this.jLabel1.setText(patient.getName());
 
@@ -643,7 +643,8 @@ public class VitalsInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        medical.setMedicalProblems(jTextArea1.getText());
+        //Save mediacal information to the database
+        medical.setMedicalProblems(jTextArea1.getText());   //updating object with new data
         medical.setAllergies(jTextArea2.getText());
         medical.setImmunizations(jTextArea3.getText());
         medical.setMainMedicalProblem(jTextField10.getText());
@@ -652,7 +653,7 @@ public class VitalsInterface extends javax.swing.JPanel {
         if (newPatient) {           //Checking adding new record or editing and updating current one.
             session.save(medical);
         } else {
-            session.update(medical);
+            session.update(medical);    //If old patient update 
         }
         session.getTransaction().commit();
 
@@ -661,7 +662,8 @@ public class VitalsInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Vitals current = new Vitals();
+        //Save vitals
+        Vitals current = new Vitals();      //Creating new vital object to save info. Does not need check new patient or not
 
         try {
             java.util.Date date = new java.util.Date();
@@ -688,7 +690,7 @@ public class VitalsInterface extends javax.swing.JPanel {
             }
 
             session.beginTransaction();
-            session.save(current);
+            session.save(current);                  //saving vitals. Does not need to check new patient or not. Always create new object
             session.getTransaction().commit();
 
             JOptionPane.showMessageDialog(null, "Vitals entered successfully", "Vitals", JOptionPane.INFORMATION_MESSAGE);
@@ -716,7 +718,7 @@ public class VitalsInterface extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if(result!=null){
         
-        ChartPanelDraw cpd = new ChartPanelDraw(result,(String)jComboBox1.getSelectedItem());
+        ChartPanelDraw cpd = new ChartPanelDraw(result,(String)jComboBox1.getSelectedItem());   //Drawing graphs
         
         }
     }//GEN-LAST:event_jButton5ActionPerformed
