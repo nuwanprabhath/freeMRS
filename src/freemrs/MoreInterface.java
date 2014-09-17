@@ -42,17 +42,19 @@ public class MoreInterface extends javax.swing.JFrame {
     private Patient currentPatient;
     private Userinfo currentUser;                               //To test who logged in    
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-
-    public MoreInterface(Session session, Patient patient, Userinfo user) {
+    mainWindow main = null;                                     //To update after delete patient
+    
+    public MoreInterface(Session session, Patient patient, Userinfo user,mainWindow main) {
         initComponents();
         this.session = session;
         currentPatient = patient;
         this.currentUser = user;
-
+        this.main = main;
         if (user.getType().equals("nurse")) {       //Removing reports and other things which are not allowed to nurse
 
             jTabbedPane1.removeTabAt(0);
             jTabbedPane1.removeTabAt(0);
+            jTabbedPane1.removeTabAt(1);
             jTabbedPane1.removeTabAt(1);
         }
 
@@ -110,6 +112,7 @@ public class MoreInterface extends javax.swing.JFrame {
         jButton11.setEnabled(false);
         jButton9.setEnabled(false);
         jComboBox1.setEnabled(false);
+        jButton13.setEnabled(false);
     }
 
     private Insurance getInsuarenceInfo() {
@@ -172,7 +175,7 @@ public class MoreInterface extends javax.swing.JFrame {
 
     private void serializeFile(String path) {       //Use to serialize the file of patient
 
-        if (currentPatient != null) {
+        if (main.currentPatient != null) {
             PatientInfoExport e = new PatientInfoExport(currentPatient, getInsuarenceInfo(), getMedicalInfo(), getPrescription(), getVitals());
 
             try {
@@ -379,6 +382,21 @@ public class MoreInterface extends javax.swing.JFrame {
         jPasswordField5 = new javax.swing.JPasswordField();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jLabel40 = new javax.swing.JLabel();
+        jPasswordField6 = new javax.swing.JPasswordField();
+        jButton12 = new javax.swing.JButton();
+        jLabel41 = new javax.swing.JLabel();
+        jSeparator9 = new javax.swing.JSeparator();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
 
         fileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
 
@@ -791,6 +809,116 @@ public class MoreInterface extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Users", jPanel4);
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/delete smal.jpg"))); // NOI18N
+
+        jLabel37.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel37.setText("Remove patient information");
+
+        jLabel38.setText("Completely remove current patient from database");
+
+        jLabel39.setText("Your user name:");
+
+        jLabel40.setText("Password:");
+
+        jButton12.setBackground(new java.awt.Color(153, 255, 153));
+        jButton12.setText("Authorize");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel41.setText("Remove patient");
+
+        jLabel42.setText("Remove currently selected patient:");
+
+        jLabel43.setText("Name:");
+
+        jButton13.setBackground(new java.awt.Color(255, 0, 0));
+        jButton13.setText("Delete Patient");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel43)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel42))
+                        .addGap(110, 110, 110)
+                        .addComponent(jButton13))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel39)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel40)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPasswordField6, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton12))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel37)
+                                    .addComponent(jLabel38)))
+                            .addComponent(jLabel41)
+                            .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel37)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel40)
+                    .addComponent(jPasswordField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton12))
+                .addGap(37, 37, 37)
+                .addComponent(jLabel41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton13))
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Remove", jPanel5);
+
         getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 370));
 
         pack();
@@ -827,28 +955,28 @@ public class MoreInterface extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String fileName = "src\\reports\\financialReport.jasper";
-         try {
-        java.util.Date invoiceDate = formatDate.parse(picker1.getEditor().getText());
-        java.sql.Date dateStart = new java.sql.Date(invoiceDate.getTime());
+        try {
+            java.util.Date invoiceDate = formatDate.parse(picker1.getEditor().getText());
+            java.sql.Date dateStart = new java.sql.Date(invoiceDate.getTime());
 
-        java.util.Date invoiceDate1 = formatDate.parse(picker2.getEditor().getText());
-        java.sql.Date dateEnd = new java.sql.Date(invoiceDate1.getTime());
+            java.util.Date invoiceDate1 = formatDate.parse(picker2.getEditor().getText());
+            java.sql.Date dateEnd = new java.sql.Date(invoiceDate1.getTime());
 
-        if (dateEnd.after(dateStart)) {               //Checking youser has input a valid time period
+            if (dateEnd.after(dateStart)) {               //Checking youser has input a valid time period
 
-            HashMap para = new HashMap();
-            para.put("start", "'" + picker1.getEditor().getText() + "'");
-            para.put("end", "'" + picker2.getEditor().getText() + "'");
-            ReportView rw = new ReportView(fileName, para);
-            rw.setVisible(true);
-             } else {
+                HashMap para = new HashMap();
+                para.put("start", "'" + picker1.getEditor().getText() + "'");
+                para.put("end", "'" + picker2.getEditor().getText() + "'");
+                ReportView rw = new ReportView(fileName, para);
+                rw.setVisible(true);
+            } else {
                 JOptionPane.showMessageDialog(this, "End date should after start date", "More", JOptionPane.INFORMATION_MESSAGE);
             }
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Please use valid date", "More", JOptionPane.INFORMATION_MESSAGE);
         }
-            
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1009,8 +1137,8 @@ public class MoreInterface extends javax.swing.JFrame {
 
         boolean access = false; //TO check acess is granted or not
         if (user == null) {
-            jTextField1.setText("");
-            jPasswordField1.setText("");
+            jTextField7.setText("");    //Resetting password field and username
+            jPasswordField5.setText("");
             JOptionPane.showMessageDialog(this, "User name or password incorrect", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
@@ -1102,6 +1230,73 @@ public class MoreInterface extends javax.swing.JFrame {
         updateCombo();
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+
+        String username = jTextField8.getText();
+        String password = new String(jPasswordField6.getPassword());
+
+        session.beginTransaction();
+        Query qr = session.createQuery("from Userinfo where username=:code");
+        qr.setParameter("code", username);
+
+        List<Userinfo> lst = qr.list();
+        session.getTransaction().commit();
+
+        Userinfo user = null;
+        if (!lst.isEmpty()) {
+            user = lst.get(0);
+        }
+
+        boolean access = false; //TO check acess is granted or not
+        if (user == null) {
+            jTextField8.setText("");
+            jPasswordField6.setText("");
+            JOptionPane.showMessageDialog(this, "User name or password incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                access = UserPasswordMatch.compareData(user, password); //Compare the password and user name with given data
+                if (!username.equals(currentUser.getUsername())) {        //check user trying to reset his password
+                    access = false;
+                    JOptionPane.showMessageDialog(this, "User name or password incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                System.out.println("Error");
+            }
+        }
+
+        if (access) {
+            if(main.currentPatient!=null){
+            this.jButton13.setEnabled(access);
+            this.jLabel44.setText(main.currentPatient.getName());
+            }else{
+                JOptionPane.showMessageDialog(this, "Please search patient first", "Patint not found", JOptionPane.INFORMATION_MESSAGE);
+            
+            }
+
+        } else {
+            if (user != null) {
+                JOptionPane.showMessageDialog(this, "User name or password incorrect", "Login error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        int result = -1;
+        result = JOptionPane.showConfirmDialog(this, "You are going to completely remove this patient.\nYou cannot undoone unless you have exported data.", "Schedule", JOptionPane.OK_CANCEL_OPTION);
+        if (result == 0) {
+            session.beginTransaction();
+            session.delete(this.currentPatient);
+            session.getTransaction().commit();
+            JOptionPane.showMessageDialog(this, "Patient removed sucessfully", "Patient Remove", JOptionPane.INFORMATION_MESSAGE);
+            main.currentPatient = null;
+            this.currentPatient=null;
+            main.viewVoid();
+        }
+
+    }//GEN-LAST:event_jButton13ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1134,7 +1329,7 @@ public class MoreInterface extends javax.swing.JFrame {
             public void run() {
                 Session n = null;
                 Patient p = null;
-                new MoreInterface(n, p, null).setVisible(true);
+                new MoreInterface(n, p, null,null).setVisible(true);
             }
         });
     }
@@ -1145,6 +1340,8 @@ public class MoreInterface extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1183,7 +1380,16 @@ public class MoreInterface extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1193,11 +1399,13 @@ public class MoreInterface extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JPasswordField jPasswordField4;
     private javax.swing.JPasswordField jPasswordField5;
+    private javax.swing.JPasswordField jPasswordField6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -1206,6 +1414,7 @@ public class MoreInterface extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
@@ -1214,5 +1423,6 @@ public class MoreInterface extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
     // End of variables declaration//GEN-END:variables
 }

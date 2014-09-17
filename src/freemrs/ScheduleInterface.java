@@ -168,9 +168,12 @@ public class ScheduleInterface extends javax.swing.JPanel {
         });
         add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 130, 120, -1));
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setText("Total number of patients scheduled:");
         add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
-        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 20, 10));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 20, 10));
 
         jTable1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -265,7 +268,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 qr.setParameter("code1", start);
                 qr.setParameter("code2", end);
                 qr.setParameter("code3", jTextField1.getText());
-                qr.setParameter("code4",sqlDate);
+                qr.setParameter("code4", sqlDate);
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
 
@@ -310,14 +313,13 @@ public class ScheduleInterface extends javax.swing.JPanel {
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                     model.addRow(new Object[]{null, null, null});
                 }
-                
+
                 jTable1.setValueAt(patient.getName(), ++tablePosition, 0);
                 jTable1.setValueAt(jTextField1.getText(), tablePosition, 1);
                 jTable1.setValueAt(picker.getEditor().getText(), tablePosition, 2);
                 jTable1.setValueAt(start + ".00", tablePosition, 3);
                 jTable1.setValueAt(end + ".00", tablePosition, 4);
 
-                
             } else {
                 JOptionPane.showMessageDialog(this, "Please use valid time slot", "Schedule", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -334,18 +336,41 @@ public class ScheduleInterface extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        this.tablePosition--;
-        DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-        int[] rows = jTable1.getSelectedRows();
-        for (int i = 0; i < rows.length; i++) {
-            model.removeRow(rows[i] - i);
+        int selectedRow = this.jTable1.getSelectedRow();
+        try {
+            Schedule selected = (Schedule) jTable1.getValueAt(selectedRow, 1);
+
+            int result;
+            result = JOptionPane.showConfirmDialog(this, "You are going to remove previous schedule", "Schedule", JOptionPane.OK_CANCEL_OPTION);
+            if (result == 0) {              //Ok message
+
+                session.beginTransaction();
+                session.delete(selected);
+                session.getTransaction().commit();
+
+                this.tablePosition--;
+                DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+                int[] rows = jTable1.getSelectedRows();
+                for (int i = 0; i < rows.length; i++) {
+                    model.removeRow(rows[i] - i);
+                }
+            }
+
+        } catch (java.lang.ClassCastException e) {
+            this.tablePosition--;
+            DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+            int[] rows = jTable1.getSelectedRows();
+            for (int i = 0; i < rows.length; i++) {
+                model.removeRow(rows[i] - i);
+            }
         }
+
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            boolean location = jCheckBox2.isSelected();
+            boolean location = jCheckBox2.isSelected(); //Checking for location and time search
             boolean time = jCheckBox1.isSelected();
 
             java.sql.Date sqlDate = null;
@@ -363,8 +388,8 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
-                jLabel13.setText(result.size()+"");
-                
+                jLabel13.setText(result.size() + "");
+
             } else if (location && !time) {
                 Query qr = session.createQuery("from Schedule where date=:code1 and location=:code4");
                 qr.setParameter("code1", sqlDate);
@@ -372,8 +397,8 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
-                jLabel13.setText(result.size()+"");
-                
+                jLabel13.setText(result.size() + "");
+
             } else if (!location && time) {
                 Query qr = session.createQuery("from Schedule where date=:code1 and startTime=:code2 and endTime=:code3");
                 qr.setParameter("code1", sqlDate);
@@ -382,15 +407,15 @@ public class ScheduleInterface extends javax.swing.JPanel {
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
-                jLabel13.setText(result.size()+"");
-                
+                jLabel13.setText(result.size() + "");
+
             } else if (!location && !time) {
                 Query qr = session.createQuery("from Schedule where date=:code1");
                 qr.setParameter("code1", sqlDate);
                 List<Schedule> result = qr.list();
                 session.getTransaction().commit();
                 addToTable(result);
-                jLabel13.setText(result.size()+"");
+                jLabel13.setText(result.size() + "");
             }
 
         } catch (ParseException ex) {
@@ -401,7 +426,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void addToTable(List<Schedule> list) {
+    private void addToTable(List<Schedule> list) {  // Used to add search results to jtable
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
         dtm.setNumRows(0);
 
@@ -417,7 +442,7 @@ public class ScheduleInterface extends javax.swing.JPanel {
             session.getTransaction().commit();
 
             jTable1.setValueAt(result.get(0).getName(), ++tablePosition, 0);
-            jTable1.setValueAt(sch.getLocation(), tablePosition, 1);
+            jTable1.setValueAt(sch, tablePosition, 1);
             jTable1.setValueAt(sch.getDate().toString(), tablePosition, 2);
             jTable1.setValueAt(sch.getStartTime() + ".00", tablePosition, 3);
             jTable1.setValueAt(sch.getEndTime() + ".00", tablePosition, 4);

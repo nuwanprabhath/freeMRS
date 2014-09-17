@@ -70,7 +70,10 @@ public class Schedule  implements java.io.Serializable {
         this.location = location;
     }
 
-
+    public String toString(){
+        return this.location;
+    }
+    
 
 
 }

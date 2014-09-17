@@ -92,10 +92,15 @@ public class mainWindow extends javax.swing.JFrame {
 
     }
 
-    private void viewVoid() {                //Show void screen at startup before search patient
+    void viewVoid() {                //Show void screen at startup before search patient. To show after removing patient
         this.setPreferredSize(new Dimension(1000, 700));
         setSize(new Dimension(1000, 700));
         welcome.setBounds(0, 224, 1060, 445);
+        patient.setVisible(false);
+        vitals.setVisible(false);
+        schedule.setVisible(false);
+        billing.setVisible(false);
+        pres.setVisible(false);
         welcome.setVisible(true);
         jLabel6.setText(user.getUsername()+":");
     }
@@ -441,12 +446,13 @@ public class mainWindow extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
             if (this.moreInterface==null){
-                this.moreInterface = new MoreInterface(session, currentPatient,user);
+                this.moreInterface = new MoreInterface(session, currentPatient,user,this);
                 this.moreInterface.setVisible(true);        
             }
             else{
-                this.moreInterface.setVisible(true);        
-                
+                this.moreInterface.setVisible(false);
+                this.moreInterface = new MoreInterface(session, currentPatient,user,this);        
+                this.moreInterface.setVisible(true); 
             }
     }//GEN-LAST:event_jButton8ActionPerformed
 
